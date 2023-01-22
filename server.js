@@ -14,8 +14,22 @@ const path = require("path");
 const express = require("express");
 const app = express();
 
+app.use(express.static(path.join(__dirname, "/assets")));
+
 // Add your routes here
 // e.g. app.get() { ... }
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "/views/index.html"));
+});
+app.get("/rentals", (req, res) => {
+  res.send("Rentals");
+});
+app.get("/sign-up", (req, res) => {
+  res.send("Sign Up");
+});
+app.get("/login", (req, res) => {
+  res.send("Login");
+});
 
 // *** DO NOT MODIFY THE LINES BELOW ***
 
