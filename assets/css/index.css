@@ -224,6 +224,26 @@ h6 {
   color: #184d47;
 }
 
+#services {
+  background-color: #e5e7eb;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#featuredServices {
+  margin: 50px 0;
+  width: 70%;
+  /* height: 100vh; */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+}
+
+#featuredServices * {
+  border: 1px solid green;
+  height: 200px;
+}
 .footer-links a,
 .footer-socials a {
   color: white;
