@@ -15,6 +15,8 @@ html {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  vertical-align: baseline;
+  outline: none;
 }
 
 body {
@@ -68,6 +70,29 @@ a {
   text-decoration: none;
 }
 
+img {
+  width: 100%;
+  height: 100%;
+}
+
+h1 {
+  font-size: 4em;
+}
+h2 {
+  font-size: 3em;
+}
+h3 {
+  font-size: 1.5em;
+}
+h4 {
+  font-size: 1.2em;
+}
+h5 {
+  font-size: 1em;
+}
+h6 {
+  font-size: 0.9em;
+}
 .nav-links {
   display: flex;
   justify-content: start;
@@ -83,13 +108,9 @@ a {
 }
 
 .nav-links a:hover {
-  color: #155b23;
+  color: #184d47;
 }
 
-.site-logo {
-  width: 100%;
-  height: 100%;
-}
 .logo-container {
   height: 90px;
   margin: 0 20px;
@@ -117,7 +138,6 @@ a {
 .hero p {
   word-wrap: break-word;
   background-color: rgb(0, 0, 0, 0.8);
-  width: auto;
   text-align: center;
 }
 
@@ -139,24 +159,69 @@ a {
 
 #featuredRentals {
   width: 70%;
-  height: 100vh;
+  /* height: 100vh; */
   padding: 20px 0;
+  color: black;
 }
 
-#featuredRentals > h3 {
-  color: black;
-  font-size: 3em;
+#featuredRentals > h2 {
+  color: #184d47;
 }
 
 #rentals-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   padding-top: 20px;
-  gap: 15px;
+  gap: 10px;
 }
 .rental-container {
-  border: 1px solid blue;
-  height: 200px;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 1fr;
+  border-radius: 10px;
+}
+
+.rental-img > img,
+.rental-img {
+  border-radius: 20px;
+}
+
+.rental-details {
+  display: flex;
+  flex: 1 0;
+  gap: 5px;
+  align-items: center;
+}
+
+.rentalAddress {
+  font-style: normal;
+  padding: 5px 15px;
+  width: 50%;
+}
+
+.rent-otherInfo {
+  width: 100%;
+  text-align: right;
+}
+
+.rentalAddress * {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.rentalAddress h3 {
+  font-weight: 700;
+}
+
+.rentalAddress h4 {
+  color: #373738;
+}
+
+.rentPrice {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: #184d47;
 }
 
 .footer-links a,
@@ -165,5 +230,5 @@ a {
 }
 .footer-links a:hover,
 .footer-socials a:hover {
-  color: #155b23;
+  color: #184d47;
 }
