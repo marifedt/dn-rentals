@@ -30,9 +30,9 @@ body {
 }
 
 header {
-  width: 80%;
+  width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   padding: 10px 5px;
   background-color: #fff;
@@ -44,6 +44,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 footer {
@@ -57,9 +58,11 @@ footer {
 }
 
 nav {
-  width: 70%;
+  width: 80%;
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  gap: 1.2em;
 }
 
 ul {
@@ -99,7 +102,7 @@ h6 {
   font-weight: 600;
   font-size: 1.5em;
   padding: 0 5px;
-  gap: 1em;
+  gap: 1.5em;
 }
 
 .nav-links a {
@@ -113,7 +116,8 @@ h6 {
 
 .logo-container {
   height: 90px;
-  margin: 0 20px;
+  padding: 15px 0;
+  flex-shrink: 0;
 }
 
 #hero {
@@ -121,9 +125,9 @@ h6 {
   width: 100%;
   height: 90vh;
   background-image: url(/hero-bg.jpg);
-  background-size: cover auto;
+  background-size: cover;
   background-repeat: no-repeat;
-  background-position: center center;
+  background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -158,21 +162,25 @@ h6 {
 }
 
 #featuredRentals {
-  width: 70%;
-  /* height: 100vh; */
+  width: 100%;
+  display: grid;
   padding: 20px 0;
+  justify-items: center;
   color: black;
 }
 
 #featuredRentals > h2 {
   color: #184d47;
+  width: 80%;
 }
 
 #rentals-container {
+  width: 80%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   padding-top: 20px;
   gap: 10px;
+  overflow-x: auto;
 }
 .rental-container {
   width: 100%;
@@ -187,16 +195,14 @@ h6 {
 }
 
 .rental-details {
-  display: flex;
-  flex: 1 0;
-  gap: 5px;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 60% 40%;
 }
 
 .rentalAddress {
   font-style: normal;
   padding: 5px 15px;
-  width: 50%;
+  overflow-x: hidden;
 }
 
 .rent-otherInfo {
@@ -206,7 +212,7 @@ h6 {
 
 .rentalAddress * {
   text-overflow: ellipsis;
-  overflow: hidden;
+  overflow-x: hidden;
   white-space: nowrap;
 }
 
