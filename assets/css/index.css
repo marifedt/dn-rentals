@@ -51,7 +51,7 @@ footer {
   width: 100%;
   background-color: black;
   display: grid;
-  grid-template-columns: 0.2fr 0.2fr 0.2fr 0.6fr;
+  grid-template-columns: 0.2fr 0.2fr 0.4fr 0.6fr;
   padding: 15px 20px;
   align-items: center;
   justify-items: center;
@@ -286,7 +286,27 @@ h6 {
 .footer-socials a {
   color: white;
 }
+
+.footer-links h4,
+.footer-socials h4 {
+  color: #31af9c;
+}
 .footer-links a:hover,
 .footer-socials a:hover {
-  color: #184d47;
+  color: #31af9c;
+}
+
+.footer-links ul {
+  border-left: 5px solid #373738;
+  padding-left: 15px;
+}
+.footer-socials {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.footer-socials ul {
+  display: flex;
+  gap: 10px;
+  font-size: 2em;
 }
