@@ -7,8 +7,8 @@ var rentals = [
     pricePerNight: 45,
     city: 'St. Catharines',
     province: 'Ontario',
-    imageUrl: '../assets/maldives.jpg',
-    featuredRental: true,
+    imageUrl: 'house4.jpg',
+    featuredRental: false,
   },
   {
     headLine: 'Comfortable 3-bedroom house',
@@ -18,8 +18,8 @@ var rentals = [
     pricePerNight: 85,
     city: 'St. Catharines',
     province: 'Ontario',
-    imageUrl: '../assets/maldives.jpg',
-    featuredRental: true,
+    imageUrl: 'calford.jpg',
+    featuredRental: false,
   },
   {
     headLine: 'Luxury Bungalow',
@@ -29,7 +29,7 @@ var rentals = [
     pricePerNight: 215,
     city: 'St. Catharines',
     province: 'Ontario',
-    imageUrl: '../assets/maldives.jpg',
+    imageUrl: 'bungalow.jpg',
     featuredRental: true,
   },
   {
@@ -40,8 +40,8 @@ var rentals = [
     pricePerNight: 25,
     city: 'St. Catharines',
     province: 'Ontario',
-    imageUrl: '../assets/maldives.jpg',
-    featuredRental: true,
+    imageUrl: 'lombardy.jpg',
+    featuredRental: false,
   },
   {
     headLine: 'Falls House Walking Distance',
@@ -51,7 +51,7 @@ var rentals = [
     pricePerNight: 600,
     city: 'Niagara Falls',
     province: 'Ontario',
-    imageUrl: '../assets/maldives.jpg',
+    imageUrl: 'bighouse.jpg',
     featuredRental: true,
   },
   {
@@ -62,7 +62,7 @@ var rentals = [
     pricePerNight: 200,
     city: 'Niagara Falls',
     province: 'Ontario',
-    imageUrl: '../assets/maldives.jpg',
+    imageUrl: 'house3.jpg',
     featuredRental: true,
   },
 ];
