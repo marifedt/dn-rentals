@@ -1,0 +1,11 @@
+ {{#each grpRentals}}
+    <section class="listingPage">
+        <h2>{{cityProvince}}</h2>
+        <div class="rentals-container">
+            {{#each rentals}}
+                {{> rental}}
+            {{/each}}
+        </div>
+    </section>
+{{/each}}
+

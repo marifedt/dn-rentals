@@ -1,16 +1,18 @@
 <article class='rental-container'>
   <div class='rental-img'>
-    <img src='/lombardy.jpg' alt='Rental House at Lombardy' />
+    <img src='/{{imageUrl}}' alt='{{headLine}}' />
   </div>
   <div class='rental-details'>
     <address class='rentalAddress'>
-      <h3>4 Via Sandro Pertini</h3>
-      <h4>Poasco, Lombardy</h4>
+      <h3>{{headLine}}</h3>
+      <h4>{{city}}, {{province}}</h4>
     </address>
     <p class='rent-otherInfo'>
-      3 BR (<i>Sleeps 6</i>)
-      <br />2 Bath<br />
-      <span class='rentPrice'>C$150/night</span>
+      {{numBedrooms}}
+      BR (<i>Sleeps {{numSleeps}}</i>)
+      <br />{{numBathrooms}}
+      Bath<br />
+      <span class='rentPrice'>C${{pricePerNight}}/night</span>
     </p>
   </div>
 </article>
