@@ -13,7 +13,7 @@
 const path = require('path');
 const express = require('express');
 const exphbs = require('express-handlebars');
-
+const rentalList = require(path.join(__dirname, '/models/rentals-db'));
 const app = express();
 
 //Set up Handlebars
@@ -31,11 +31,19 @@ app.use(express.static(path.join(__dirname, '/assets')));
 // Add your routes here
 // e.g. app.get() { ... }
 app.get('/', (req, res) => {
-  res.render('home');
+  res.render('home', {
+    styles: [{ name: 'index.css' }, { name: 'home.css' }],
+    rentals: rentalList.getFeaturedRentals(),
+  });
 });
+
 app.get('/rentals', (req, res) => {
-  res.send('Rentals');
+  res.render('rentals', {
+    styles: [{ name: 'index.css' }, { name: 'rentals.css' }],
+    grpRentals: [...rentalList.getRentalsByCityAndProvince()],
+  });
 });
+
 app.get('/sign-up', (req, res) => {
   res.send('Sign Up');
 });
