@@ -1,0 +1,21 @@
+#login-w {
+  color: #184d47;
+  background-color: #31af9c;
+}
+
+.bg-green {
+  color: white;
+  background-color: #184d47;
+}
+
+form {
+  border: 1px solid #dadada;
+  padding: 50px 0;
+  background-color: white;
+  box-shadow: 0px 6px 15px rgb(27, 27, 27);
+}
+
+.btn:hover {
+  color: white;
+  background-color: #31af9c;
+}

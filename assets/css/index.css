@@ -19,6 +19,7 @@ body {
 }
 
 header {
+  background-color: white;
   border-bottom: 1px solid #c5c5c5;
 }
 
@@ -66,8 +67,15 @@ h6 {
   font-size: 0.9em;
 }
 
+.btn:hover {
+  background-color: #31af9c;
+}
+
 .fcolor {
   color: #31af9c;
+}
+.dGreen {
+  color: #184d47;
 }
 
 /* Header Nav */
