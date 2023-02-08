@@ -1,14 +1,28 @@
-<header>
-  <nav>
-    <div class='logo-container'>
-      <a href='/'><img class='site-logo' src='/logo.png' alt='Website Logo' /></a>
+<header class='container-fluid'>
+  <nav class='navbar navbar-expand-lg nav-links'>
+    <div class='container-fluid flex-column flex-sm-row justify-content-lg-center'>
+      <a class='navbar-brand text-center pb-3' href='/'>
+        <img src='/logo.png' alt='Website Logo' class='img-fluid' style='width: 50%' />
+      </a>
+      <button
+        class='navbar-toggler'
+        type='button'
+        data-bs-toggle='collapse'
+        data-bs-target='#navbarNavAltMarkup'
+        aria-controls='navbarNavAltMarkup'
+        aria-expanded='false'
+        aria-label='Toggle navigation'
+      >
+        <i class='fa-solid fa-bars'></i>
+      </button>
+      <div class='collapse navbar-collapse justify-content-md-start' id='navbarNavAltMarkup'>
+        <div class='navbar-nav text-center'>
+          <a class='nav-link' href='/'>Home</a>
+          <a class='nav-link' href='/rentals'>Rentals</a>
+          <a class='nav-link' href='/sign-up'>Sign Up</a>
+          <a class='nav-link' href='/login'>Login</a>
+        </div>
+      </div>
     </div>
-    <ul class='nav-links'>
-      <li><a href='/'>Home</a></li>
-      <li><a href='/rentals'>Rentals</a></li>
-      <li><a href='/sign-up'>Sign Up</a></li>
-      <li><a href='/login'>Login</a></li>
-    </ul>
-    &nbsp;
   </nav>
 </header>
