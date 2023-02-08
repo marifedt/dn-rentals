@@ -13,13 +13,9 @@ html {
 }
 
 body {
-  width: 100%;
   font-family: 'Kanit', sans-serif;
   font-size: 16px;
   color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 header {
@@ -35,13 +31,7 @@ main {
 }
 
 footer {
-  width: 100%;
   background-color: black;
-  display: grid;
-  grid-template-columns: 0.2fr 0.2fr 0.4fr 0.6fr;
-  padding: 15px 20px;
-  align-items: center;
-  justify-items: center;
 }
 
 ul {
@@ -76,6 +66,11 @@ h6 {
   font-size: 0.9em;
 }
 
+.fcolor {
+  color: #31af9c;
+}
+
+/* Header Nav */
 .nav-links {
   font-weight: 600;
   font-size: 1.5em;
@@ -90,31 +85,12 @@ h6 {
   color: #184d47;
 }
 
+/* Footers */
 .footer-links a,
 .footer-socials a {
   color: white;
 }
-
-.footer-links h4,
-.footer-socials h4 {
-  color: #31af9c;
-}
 .footer-links a:hover,
 .footer-socials a:hover {
   color: #31af9c;
-}
-
-.footer-links ul {
-  border-left: 5px solid #373738;
-  padding-left: 15px;
-}
-.footer-socials {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.footer-socials ul {
-  display: flex;
-  gap: 10px;
-  font-size: 2em;
 }
