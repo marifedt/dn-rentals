@@ -45,10 +45,14 @@ app.get('/rentals', (req, res) => {
 });
 
 app.get('/sign-up', (req, res) => {
-  res.send('Sign Up');
+  res.render('sign-up', {
+    styles: [{ name: 'index.css' }],
+  });
 });
 app.get('/login', (req, res) => {
-  res.send('Login');
+  res.render('log-in', {
+    styles: [{ name: 'index.css' }, { name: 'log-in.css' }],
+  });
 });
 
 // *** DO NOT MODIFY THE LINES BELOW ***
