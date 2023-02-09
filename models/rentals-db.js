@@ -13,7 +13,7 @@ var rentals = [
   {
     headLine: 'Comfortable 3-bedroom house',
     numSleeps: 4,
-    numBedrooms: 4,
+    numBedrooms: 3,
     numBathrooms: 1,
     pricePerNight: 85,
     city: 'St. Catharines',
@@ -80,8 +80,7 @@ module.exports.getFeaturedRentals = function () {
 module.exports.getRentalsByCityAndProvince = function () {
   let cityProvince = [];
   rentals.forEach((rental) => {
-    if (!cityProvince.includes(`${rental.city}, ${rental.province}`))
-      cityProvince.push(`${rental.city}, ${rental.province}`);
+    if (!cityProvince.includes(`${rental.city}, ${rental.province}`)) cityProvince.push(`${rental.city}, ${rental.province}`);
   });
 
   let grpRentals = [];
