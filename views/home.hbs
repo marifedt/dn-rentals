@@ -48,7 +48,9 @@
     <h2>Featured Rentals</h2>
     <div class='rentals-container'>
       {{#each rentals}}
-        {{>rental}}
+        <div class="d-flex flex-column align-items-center g-0 col px-2">
+          {{>rental}}
+        </div>
       {{/each}}
     </div>
   </section>
