@@ -46,12 +46,12 @@ app.get('/rentals', (req, res) => {
 
 app.get('/sign-up', (req, res) => {
   res.render('sign-up', {
-    styles: [{ name: 'index.css' }],
+    styles: [{ name: 'index.css' }, { name: 'form.css' }],
   });
 });
 app.get('/login', (req, res) => {
   res.render('log-in', {
-    styles: [{ name: 'index.css' }, { name: 'log-in.css' }],
+    styles: [{ name: 'index.css' }, { name: 'form.css' }],
   });
 });
 
