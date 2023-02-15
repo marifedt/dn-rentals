@@ -21,9 +21,6 @@
   #hero p {
     font-size: calc(2rem + 0.5vw);
   }
-  #hero {
-    height: calc(1rem + 70vh);
-  }
 }
 
 #hero-btn-next {
