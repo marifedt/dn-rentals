@@ -41,52 +41,18 @@
 
 #services {
   background-color: #184d47;
-  width: 100%;
-  display: flex;
   justify-content: center;
 }
-
-#featuredServices {
-  color: white;
-  margin: 50px 0;
-  width: 80%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0 25px;
+#services > div {
+  border: 2px solid #c1efff;
 }
-.service {
-  border: 3px solid #c1efff;
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: 50px 1fr;
-  justify-items: center;
-  align-items: center;
-  padding: 5px 15px;
-  gap: 5px 15px;
-  word-break: break-word;
-  border-radius: 25px 90px 25px 90px;
+#services article i {
+  font-size: calc(3rem + 0.5vw);
 }
-.service h4 {
-  letter-spacing: 0.2rem;
-  justify-self: center;
-  grid-column: 1/5;
-  grid-row: 1;
-}
-.service i {
-  font-size: 3em;
-  grid-column: 1/1;
-  grid-row: 2;
-  padding: 0 0 15px 20px;
-}
-.service p {
-  grid-column: 2/5;
-  grid-row: 2;
-}
-.service:nth-child(2n + 1) i {
+#services article:nth-child(2n + 1) i {
   color: #ffdba4;
 }
-.service:nth-child(2n) i {
+#services article:nth-child(2n) i {
   color: #ffb3b3;
 }
 
