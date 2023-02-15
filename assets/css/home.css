@@ -91,70 +91,10 @@
 }
 
 #featuredRentals {
-  width: 100%;
-  display: grid;
-  padding: 20px 0;
-  justify-items: center;
   color: black;
 }
 
 #featuredRentals > h2 {
   color: #184d47;
-  width: 80%;
-}
-
-.rentals-container {
-  width: 80%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  padding-top: 20px;
-  gap: 10px;
-  overflow-x: auto;
-}
-.rental-container {
-  width: 100%;
-  display: grid;
-  grid-template-rows: 1fr;
-  border-radius: 10px;
-}
-
-.rental-img > img,
-.rental-img {
-  border-radius: 20px;
-}
-
-.rental-details {
-  display: grid;
-  grid-template-columns: 60% 40%;
-}
-
-.rentalAddress {
-  font-style: normal;
-  padding: 5px 15px;
-  overflow-x: hidden;
-}
-
-.rent-otherInfo {
-  width: 100%;
-  text-align: right;
-}
-
-.rentalAddress * {
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  white-space: nowrap;
-}
-
-.rentalAddress h3 {
-  font-weight: 700;
-}
-
-.rentalAddress h4 {
-  color: #373738;
-}
-
-.rentPrice {
-  font-size: 1.5em;
-  font-weight: 600;
-  color: #184d47;
+  font-size: calc(2em + 0.5vw);
 }

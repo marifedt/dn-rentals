@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, '/assets')));
 // e.g. app.get() { ... }
 app.get('/', (req, res) => {
   res.render('home', {
-    styles: [{ name: 'index.css' }, { name: 'home.css' }],
+    styles: [{ name: 'index.css' }, { name: 'home.css' }, { name: 'rentals.css' }],
     rentals: rentalList.getFeaturedRentals(),
   });
 });

@@ -6,13 +6,23 @@
 .rental-img {
   border-radius: 50px;
 }
-.rentalAddress h3 {
+.rentalAddress h4 {
   font-weight: 700;
 }
-.rentalAddress h4 {
+.rentalAddress h5 {
   color: #373738;
 }
 .rentPrice {
   font-weight: 600;
   color: #184d47;
+  font-size: calc(1.2rem + 0.5vw);
+}
+.rentalDetails {
+  font-size: calc(0.7rem + 0.5vw);
+}
+
+@media (min-width: 1200px) {
+  .rentPrice {
+    font-size: 1.5rem;
+  }
 }

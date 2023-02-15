@@ -1,17 +1,19 @@
-<div class='row rental-img ratio ratio-4x3'>
+<div class='row rental-img ratio ratio-4x3 text-center'>
   <img src='/{{imageUrl}}' alt='{{headLine}}' />
 </div>
-<div class='row container-fluid'>
-  <address class='col-7 rentalAddress text-start pt-2 ps-2'>
-    <h3 class='text-truncate'>{{headLine}}</h3>
-    <h4 class='text-truncate'>{{city}}, {{province}}</h4>
+<div class='row row-cols-sm-2 container-fluid'>
+  <address class='col-5 col-sm-6 col-xl-7 rentalAddress text-start pt-2 ps-sm-2'>
+    <h4 class='text-truncate'>{{headLine}}</h3>
+    <h5 class='text-truncate'>{{city}}, {{province}}</h4>
   </address>
-  <p class='col-5 text-end pe-3 pt-2'>
-    <span class='fs-5'>{{numBedrooms}} <i class='fa-solid fa-bed'></i></span>
-    <span class='fs-5'>(<i>Sleeps {{numSleeps}}<i class='fa-solid fa-user-group'></i></i>)</span>
+  <p class='col col-sm-6 col-xl-5 text-end pe-3 pt-2'>
+    <span class='rentPrice'>C${{pricePerNight}}/night</span>
+    <br>
+    <span><i class='fa-solid fa-bed'></i> &nbsp;{{numBedrooms}} </span><span class='fw-normal'><i class="fa-solid fa-bath"></i>{{numBathrooms}}</span>
+    <br>
+    <span><i class='fa-solid fa-user-group'></i>Sleeps {{numSleeps}}</span>
+    
     <br />
-    <span class='fs-5 fw-normal'>{{numBathrooms}} Bath</span>
-    <br />
-    <span class='rentPrice fs-3'>C${{pricePerNight}}/night</span>
+    
   </p>
 </div>

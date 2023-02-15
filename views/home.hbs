@@ -44,11 +44,11 @@
       </article>
     </div>
   </section>
-  <section id='featuredRentals'>
-    <h2>Featured Rentals</h2>
-    <div class='rentals-container'>
+  <section id='featuredRentals' class="container-fluid mx-auto px-sm-4 pt-3">
+    <h2 class="fw-bolder dGreen mb-3">Featured Rentals</h2>
+    <div class='row'>
       {{#each rentals}}
-        <div class="d-flex flex-column align-items-center g-0 col px-2">
+        <div class="col-12 col-md-6 col-lg-4 p-2 d-flex flex-column align-items-center">
           {{>rental}}
         </div>
       {{/each}}
