@@ -26,6 +26,8 @@ app.engine(
 );
 app.set('view engine', '.hbs');
 
+app.use(express.urlencoded({ extended: false }));
+
 app.use(express.static(path.join(__dirname, '/assets')));
 
 // Add your routes here
@@ -53,6 +55,35 @@ app.get('/login', (req, res) => {
   res.render('log-in', {
     styles: [{ name: 'index.css' }, { name: 'form.css' }],
   });
+});
+
+app.post('/login', (req, res) => {
+  const { loginEmail, loginPassword } = req.body;
+
+  let passedValidation = true;
+  let validationMessages = {};
+
+  if (typeof loginEmail !== 'string' || loginEmail.trim().length === 0) {
+    passedValidation = false;
+    validationMessages.email = 'You must specify a valid email';
+  }
+  if (typeof loginPassword !== 'string' || loginPassword.trim().length === 0) {
+    passedValidation = false;
+
+    validationMessages.password = 'Input your password';
+  }
+
+  if (passedValidation) {
+    res.render('log-in', {
+      styles: [{ name: 'index.css' }, { name: 'form.css' }],
+    });
+  } else {
+    res.render('log-in', {
+      styles: [{ name: 'index.css' }, { name: 'form.css' }],
+      validationMessages,
+      values: req.body,
+    });
+  }
 });
 
 // *** DO NOT MODIFY THE LINES BELOW ***

@@ -1,18 +1,24 @@
 <section id='login-w' class='container-fluid d-flex align-items-center py-4' style='height:90vh'>
-  <form class='container mx-auto col col-md-8 col-xl-4 rounded px-4'>
+  <form method='post' action='/login' class='container mx-auto col col-md-8 col-xl-4 rounded px-4'>
     <div class='form-floating'>
       <h2 class='text-center mb-4 fw-bolder'>Welcome Back</h2>
     </div>
     <div class='form-floating mb-3'>
-      <input type='email' class='form-control' id='floatingInput' placeholder='name@example.com' />
-      <label for='floatingInput'>Email address</label>
+      <input type='text' class='form-control' name='loginEmail' id='loginEmail' placeholder='name@example.com' value='{{values.loginEmail}}' />
+      <label for='loginEmail'>Email address</label>
+      {{#if validationMessages.email}}
+        <span style='color: red;'>{{validationMessages.email}}</span>
+      {{/if}}
     </div>
     <div class='form-floating mb-4'>
-      <input type='password' class='form-control' id='floatingPassword' placeholder='Password' />
-      <label for='floatingPassword'>Password</label>
+      <input type='password' class='form-control' name='loginPassword' id='loginPassword' placeholder='Password' value='{{values.loginPassword}}' />
+      <label for='loginPassword'>Password</label>
+      {{#if validationMessages.password}}
+        <span style='color: red;'>{{validationMessages.password}}</span>
+      {{/if}}
     </div>
     <div class='mx-auto'>
-      <button type='button' class='btn container bg-green fs-4'>Log in</button>
+      <input type='submit' id='loginBtn' class='btn container bg-green fs-4' value='Log in' />
     </div>
   </form>
 </section>
