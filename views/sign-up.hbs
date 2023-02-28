@@ -1,27 +1,39 @@
 <section id='signup-w' class='container-fluid d-flex align-items-center py-4' style='height:90vh'>
-  <form class='container mx-auto col col-md-8 col-xl-4 rounded px-4'>
+  <form action='/sign-up' method='post' class='container mx-auto col col-md-8 col-xl-4 rounded px-4'>
     <div class='form-floating mb-4'>
       <h2 class='text-center fw-bolder'>Sign Up</h2>
       <p>Create your account by entering your email address and choosing a password</p>
     </div>
     <div class='form-floating mb-3'>
-      <input type='text' class='form-control' id='f_firstName' placeholder='John' />
-      <label for='f_firstName'>First Name</label>
+      <input type='text' class='form-control' id='su_firstName' name='su_firstName' value='{{values.su_firstName}}' placeholder='John' />
+      <label for='su_firstName'>First Name</label>
+      {{#if validationMessages.firstName}}
+        <small style='color: red;'>{{validationMessages.firstName}}</small>
+      {{/if}}
     </div>
     <div class='form-floating mb-3'>
-      <input type='text' class='form-control' id='f_lastName' placeholder='Doe' />
-      <label for='f_lastName'>Last Name</label>
+      <input type='text' class='form-control' id='su_lastName' name='su_lastName' value='{{values.su_lastName}}' placeholder='Doe' />
+      <label for='su_lastName'>Last Name</label>
+      {{#if validationMessages.lastName}}
+        <small style='color: red;'>{{validationMessages.lastName}}</small>
+      {{/if}}
     </div>
     <div class='form-floating mb-3'>
-      <input type='email' class='form-control' id='f_email' placeholder='name@example.com' />
-      <label for='f_email'>Email address</label>
+      <input type='text' class='form-control' id='su_email' name='su_email' value='{{values.su_email}}' placeholder='name@example.com' />
+      <label for='su_email'>Email address</label>
+      {{#if validationMessages.email}}
+        <small style='color: red;'>{{validationMessages.email}}</small>
+      {{/if}}
     </div>
     <div class='form-floating mb-4'>
-      <input type='password' class='form-control' id='f_pw' placeholder='Password' />
-      <label for='f_pw'>Password</label>
+      <input type='password' class='form-control' id='su_password' name='su_password' value='{{values.su_password}}' placeholder='Password' />
+      <label for='su_password'>Password</label>
+      {{#if validationMessages.password}}
+        <small style='color: red;'>{{validationMessages.password}}</small>
+      {{/if}}
     </div>
     <div class='mx-auto'>
-      <button type='button' class='btn container bg-green fs-4'>Sign up today</button>
+      <button type='submit' class='btn container bg-green fs-4'>Sign up today</button>
     </div>
   </form>
 </section>
