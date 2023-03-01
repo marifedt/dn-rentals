@@ -14,6 +14,12 @@ const path = require('path');
 const express = require('express');
 const exphbs = require('express-handlebars');
 const rentalList = require(path.join(__dirname, '/models/rentals-db'));
+
+//Setup dotenv
+const dotenv = require('dotenv');
+dotenv.config({ path: './config/keys.env' });
+
+//Set up express
 const app = express();
 
 //Set up Handlebars
@@ -26,6 +32,7 @@ app.engine(
 );
 app.set('view engine', '.hbs');
 
+//Set up body-parser
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, '/assets')));
@@ -54,6 +61,12 @@ app.get('/sign-up', (req, res) => {
 app.get('/login', (req, res) => {
   res.render('log-in', {
     styles: [{ name: 'index.css' }, { name: 'form.css' }],
+  });
+});
+
+app.get('/welcome', (req, res) => {
+  res.render('welcome', {
+    styles: [{ name: 'index.css' }],
   });
 });
 
@@ -127,9 +140,33 @@ app.post('/sign-up', (req, res) => {
   }
 
   if (passedValidation) {
-    res.render('sign-up', {
-      styles: [{ name: 'index.css' }, { name: 'form.css' }],
-    });
+    //Continue and submit sign up form
+    const sgMail = require('@sendgrid/mail');
+    sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
+
+    const msg = {
+      to: su_email.trim(),
+      from: 'mdt.mrfdt@gmail.com',
+      subject: 'Account Created',
+      html: `<h3>Welcome to D|N Rentals!</h3>
+            <p>Hello <strong>${su_firstName} ${su_lastName}</strong>! <br/> We are thrilled to offer you a wide variety of properties for rent, from cozy apartments to luxurious villas, to help you find the perfect home that suits your needs and preferences. <br/><br/>
+            Thank you for choosing our property rental website, and we look forward to helping you find your perfect home!</p>
+            <h5>Marife Dela Torre</h5>
+            <h4>D|N Rentals</h4>`,
+    };
+
+    sgMail
+      .send(msg)
+      .then(() => {
+        res.redirect('/welcome');
+      })
+      .catch((err) => {
+        console.log(err);
+
+        res.render('sign-up', {
+          styles: [{ name: 'index.css' }, { name: 'form.css' }],
+        });
+      });
   } else {
     res.render('sign-up', {
       styles: [{ name: 'index.css' }, { name: 'form.css' }],
