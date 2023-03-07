@@ -58,7 +58,7 @@ app.get('/sign-up', (req, res) => {
     styles: [{ name: 'index.css' }, { name: 'form.css' }],
   });
 });
-app.get('/login', (req, res) => {
+app.get('/log-in', (req, res) => {
   res.render('log-in', {
     styles: [{ name: 'index.css' }, { name: 'form.css' }],
   });
