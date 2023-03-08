@@ -16,3 +16,27 @@ main {
 #welcome :nth-child(2) h1 {
   font-weight: 800;
 }
+
+@media (max-width: 768px) {
+  main {
+    position: relative;
+  }
+  #welcome {
+    position: relative;
+    width: 80vw;
+  }
+  main:before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.2;
+    background-image: url('/villa-480w.jpg');
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+    background-size: cover;
+  }
+}
