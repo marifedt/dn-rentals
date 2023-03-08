@@ -10,5 +10,6 @@ Course/Section: NCC
 
 ## Project URLs
 
-GitHub Repo : https://github.com/<repo_name>/
-Cyclic URL : https://<app_name>.cyclic.app/
+GitHub Repo : https://github.com/marifedt/web322-mdela-torre
+
+Cyclic URL : https://clean-pike-cummerbund.cyclic.app/
