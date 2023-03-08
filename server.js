@@ -66,11 +66,11 @@ app.get('/log-in', (req, res) => {
 
 app.get('/welcome', (req, res) => {
   res.render('welcome', {
-    styles: [{ name: 'index.css' }],
+    styles: [{ name: 'index.css' }, { name: 'welcome.css' }],
   });
 });
 
-app.post('/login', (req, res) => {
+app.post('/log-in', (req, res) => {
   const { loginEmail, loginPassword } = req.body;
 
   let passedValidation = true;
@@ -154,7 +154,6 @@ app.post('/sign-up', (req, res) => {
             <h5>Marife Dela Torre</h5>
             <h4>D|N Rentals</h4>`,
     };
-
     sgMail
       .send(msg)
       .then(() => {
