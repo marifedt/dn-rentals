@@ -19,7 +19,7 @@
       {{/if}}
     </div>
     <div class='form-floating mb-3'>
-      <input type='text' class='form-control' id='su_email' name='su_email' value='{{values.su_email}}' placeholder='name@example.com' />
+      <input type='email' class='form-control' id='su_email' name='su_email' value='{{values.su_email}}' placeholder='name@example.com' />
       <label for='su_email'>Email address</label>
       {{#if validationMessages.email}}
         <small style='color: red;'>{{validationMessages.email}}</small>

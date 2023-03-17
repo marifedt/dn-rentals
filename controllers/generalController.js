@@ -43,11 +43,11 @@ router.post('/log-in', (req, res) => {
   }
 
   if (passedValidation) {
-    res.render('log-in', {
+    res.render('general/log-in', {
       styles: [{ name: 'index.css' }, { name: 'form.css' }],
     });
   } else {
-    res.render('log-in', {
+    res.render('general/log-in', {
       styles: [{ name: 'index.css' }, { name: 'form.css' }],
       validationMessages,
       values: req.body,
@@ -97,34 +97,57 @@ router.post('/sign-up', (req, res) => {
   }
 
   if (passedValidation) {
-    //Continue and submit sign up form
-    const sgMail = require('@sendgrid/mail');
-    sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
+    const userModel = require('../models/userModel');
+    const newUser = new userModel({
+      firstName: su_firstName,
+      lastName: su_lastName,
+      email: su_email,
+      password: su_password,
+    });
+    newUser
+      .save()
+      .then((userSaved) => {
+        console.log(`User ${userSaved.firstName} has been added to the database`);
+        res.redirect('general/welcome');
+        //Send an email using SendGrid
+        const sgMail = require('@sendgrid/mail');
+        sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
 
-    const msg = {
-      to: su_email.trim(),
-      from: 'mdt.mrfdt@gmail.com',
-      subject: 'Account Created',
-      html: `<h3>Welcome to D|N Rentals!</h3>
+        const msg = {
+          to: su_email.trim(),
+          from: 'mdt.mrfdt@gmail.com',
+          subject: 'Account Created',
+          html: `<h3>Welcome to D|N Rentals!</h3>
             <p>Hello <strong>${su_firstName} ${su_lastName}</strong>! <br/> We are thrilled to offer you a wide variety of properties for rent, from cozy apartments to luxurious villas, to help you find the perfect home that suits your needs and preferences. <br/><br/>
             Thank you for choosing our property rental website, and we look forward to helping you find your perfect home!</p>
             <h5>Marife Dela Torre</h5>
             <h4>D|N Rentals</h4>`,
-    };
-    sgMail
-      .send(msg)
-      .then(() => {
-        res.redirect('/welcome');
+        };
+        sgMail
+          .send(msg)
+          .then(() => {
+            res.redirect('general/welcome');
+          })
+          .catch((err) => {
+            console.log(err);
+
+            res.render('general/sign-up', {
+              styles: [{ name: 'index.css' }, { name: 'form.css' }],
+            });
+          });
       })
       .catch((err) => {
-        console.log(err);
-
-        res.render('sign-up', {
+        console.log(`Error adding user to the database ... ${err}`);
+        validationMessages.email = 'Email is already taken. Try another.';
+        req.body.su_email = '';
+        res.render('general/sign-up', {
           styles: [{ name: 'index.css' }, { name: 'form.css' }],
+          validationMessages,
+          values: req.body,
         });
       });
   } else {
-    res.render('sign-up', {
+    res.render('general/sign-up', {
       styles: [{ name: 'index.css' }, { name: 'form.css' }],
       validationMessages,
       values: req.body,
