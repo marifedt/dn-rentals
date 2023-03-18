@@ -19,8 +19,17 @@
         <div class='navbar-nav text-center'>
           <a class='nav-link' href='/'>Home</a>
           <a class='nav-link' href='/rentals'>Rentals</a>
-          <a class='nav-link' href='/sign-up'>Sign Up</a>
-          <a class='nav-link' href='/log-in'>Login</a>
+          {{#unless user}}
+            <a class='nav-link' href='/sign-up'>Sign Up</a>
+            <a class='nav-link' href='/log-in'>Login</a>
+          {{else}}
+            {{#if isCustomer}}
+              <a class='nav-link' href='/cart'>{{user.firstName}}</a>
+            {{else}}
+              <a class='nav-link' href='/rentals/list'>{{user.firstName}}</a>
+            {{/if}}
+            <a class='nav-link' href='/logout'>Logout</a>
+          {{/unless}}
         </div>
       </div>
     </div>

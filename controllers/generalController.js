@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const rentalList = require('../models/rentals-db');
+const userModel = require('../models/userModel');
+const bcryptjs = require('bcryptjs');
 
 router.get('/', (req, res) => {
   res.render('general/home', {
@@ -27,8 +29,16 @@ router.get('/welcome', (req, res) => {
   });
 });
 
+router.get('/cart', (req, res) => {
+  if (req.session.user && req.session.isCustomer) {
+    res.send('Welcome Customer!');
+  } else {
+    res.status(401).send('You are not authorized to view this page.');
+  }
+});
+
 router.post('/log-in', (req, res) => {
-  const { loginEmail, loginPassword } = req.body;
+  const { loginEmail, loginPassword, roles } = req.body;
 
   let passedValidation = true;
   let validationMessages = {};
@@ -43,9 +53,55 @@ router.post('/log-in', (req, res) => {
   }
 
   if (passedValidation) {
-    res.render('general/log-in', {
-      styles: [{ name: 'index.css' }, { name: 'form.css' }],
-    });
+    userModel
+      .findOne({ email: loginEmail })
+      .then((user) => {
+        if (user) {
+          // Found the user document
+          bcryptjs.compare(loginPassword, user.password).then((pwMatched) => {
+            if (pwMatched) {
+              //Passwords match
+              req.session.user = user;
+              if (roles === 'dataEntry') {
+                req.session.isCustomer = false;
+                res.redirect('/rentals/list');
+              } else {
+                //Customer
+                req.session.isCustomer = true;
+                res.redirect('/cart');
+              }
+            } else {
+              //Password did not match
+              console.log('Password does not match the database.');
+              delete req.body.password;
+              validationMessages.loginError = 'Sorry, you entered an invalid email and/or password';
+              res.render('general/log-in', {
+                styles: [{ name: 'index.css' }, { name: 'form.css' }],
+                validationMessages,
+                values: req.body,
+              });
+            }
+          });
+        } else {
+          //User was not found
+          console.log('Email was not found in the database.');
+          validationMessages.loginError = 'Sorry, you entered an invalid email and/or password';
+          res.render('general/log-in', {
+            styles: [{ name: 'index.css' }, { name: 'form.css' }],
+            validationMessages,
+            values: req.body,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log('Error finding the user in the database ... ' + err);
+        validationMessages.loginError = 'Sorry, you entered an invalid email and/or password';
+        res.render('general/log-in', {
+          styles: [{ name: 'index.css' }, { name: 'form.css' }],
+          validationMessages,
+          values: req.body,
+        });
+      });
   } else {
     res.render('general/log-in', {
       styles: [{ name: 'index.css' }, { name: 'form.css' }],
@@ -108,7 +164,6 @@ router.post('/sign-up', (req, res) => {
       .save()
       .then((userSaved) => {
         console.log(`User ${userSaved.firstName} has been added to the database`);
-        res.redirect('general/welcome');
         //Send an email using SendGrid
         const sgMail = require('@sendgrid/mail');
         sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
@@ -126,11 +181,10 @@ router.post('/sign-up', (req, res) => {
         sgMail
           .send(msg)
           .then(() => {
-            res.redirect('general/welcome');
+            res.redirect('/welcome');
           })
           .catch((err) => {
             console.log(err);
-
             res.render('general/sign-up', {
               styles: [{ name: 'index.css' }, { name: 'form.css' }],
             });
@@ -153,6 +207,12 @@ router.post('/sign-up', (req, res) => {
       values: req.body,
     });
   }
+});
+
+router.get('/logout', (req, res) => {
+  // Clear the session from memory.
+  req.session.destroy();
+  res.redirect('/log-in');
 });
 
 module.exports = router;

@@ -2,6 +2,9 @@
   <form method='post' action='/log-in' class='container mx-auto col col-md-8 col-xl-4 rounded px-4'>
     <div class='form-floating'>
       <h2 class='text-center mb-4 fw-bolder'>Welcome Back</h2>
+      {{#if validationMessages.loginError}}
+        <span style='color: red;'>{{validationMessages.loginError}}</span>
+      {{/if}}
     </div>
     <div class='form-floating mb-3'>
       <input type='text' class='form-control' name='loginEmail' id='loginEmail' placeholder='name@example.com' value='{{values.loginEmail}}' />
@@ -16,6 +19,17 @@
       {{#if validationMessages.password}}
         <span style='color: red;'>{{validationMessages.password}}</span>
       {{/if}}
+    </div>
+    <span class='pe-2 fw-semibold'>Login as: </span>
+    <div class='form-floating mb-3 d-flex justify-content-center'>
+      <div class='form-check form-check-inline'>
+        <input class='form-check-input' type='radio' name='roles' id='dataEntry' value='dataEntry' checked />
+        <label class='form-check-label' for='dataEntry'>Data Entry Clerk</label>
+      </div>
+      <div class='form-check form-check-inline'>
+        <input class='form-check-input' type='radio' name='roles' id='customer' value='customer' />
+        <label class='form-check-label' for='customer'>Customer</label>
+      </div>
     </div>
     <div class='mx-auto'>
       <input type='submit' id='loginBtn' class='btn container bg-green fs-4' value='Log in' />

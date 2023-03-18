@@ -14,6 +14,7 @@ const path = require('path');
 const express = require('express');
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
+const session = require('express-session');
 
 //Setup dotenv
 const dotenv = require('dotenv');
@@ -37,6 +38,21 @@ app.use(express.urlencoded({ extended: false }));
 
 //Public folder
 app.use(express.static(path.join(__dirname, '/assets')));
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+app.use((req, res, next) => {
+  // res.locals.user is a global handlebars variable.
+  // This means that every single handlebars file can access this variable.
+  res.locals.user = req.session.user;
+  res.locals.isCustomer = req.session.isCustomer;
+  next();
+});
 
 //Load the controllers
 const generalController = require('./controllers/generalController');

@@ -20,6 +20,26 @@ form {
 form label {
   color: grey;
 }
+
+.form-check-label {
+  color: #184d47;
+  font-weight: 600;
+}
+input[type='radio'] {
+  -webkit-appearance: none;
+  appearance: none;
+  font: inherit;
+  color: currentColor;
+  width: 1.2em;
+  height: 1.2em;
+  border: 2px solid currentColor;
+}
+
+.form-check-input:checked {
+  background-color: #184d47;
+  border-color: #184d47;
+}
+
 .btn:hover {
   color: white;
   background-color: #31af9c;
