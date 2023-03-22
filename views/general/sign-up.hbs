@@ -1,5 +1,10 @@
 <section id='signup-w' class='container-fluid d-flex align-items-center py-4'>
   <form action='/sign-up' method='post' class='container mx-auto col col-md-8 col-xl-4 rounded px-4'>
+    {{#if validationMessages.error}}
+      <div class='form-floating mb-4'>
+        <small style='color: red;'>{{validationMessages.error}}</small>
+      </div>
+    {{/if}}
     <div class='form-floating mb-4'>
       <h2 class='text-center fw-bolder'>Sign Up</h2>
       <p>Create your account by entering your email address and choosing a password</p>

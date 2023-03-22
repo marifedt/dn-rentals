@@ -1,10 +1,10 @@
 <section id='login-w' class='container-fluid d-flex align-items-center py-4'>
   <form method='post' action='/log-in' class='container mx-auto col col-md-8 col-xl-4 rounded px-4'>
     <div class='form-floating'>
-      <h2 class='text-center mb-4 fw-bolder'>Welcome Back</h2>
       {{#if validationMessages.loginError}}
-        <span style='color: red;'>{{validationMessages.loginError}}</span>
+        <h6 class='text-center mb-4' style='color: red;'>{{validationMessages.loginError}}</h6>
       {{/if}}
+      <h2 class='text-center mb-4 fw-bolder'>Welcome Back</h2>
     </div>
     <div class='form-floating mb-3'>
       <input type='text' class='form-control' name='loginEmail' id='loginEmail' placeholder='name@example.com' value='{{values.loginEmail}}' />
