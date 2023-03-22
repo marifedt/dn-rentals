@@ -4,6 +4,23 @@ const rentalList = require('../models/rentals-db');
 const userModel = require('../models/userModel');
 const bcryptjs = require('bcryptjs');
 
+const LOGIN_VIEW = 'general/log-in';
+const prepareLoginModel = function (req, validationMessages) {
+  return {
+    styles: [{ name: 'index.css' }, { name: 'form.css' }],
+    validationMessages,
+    values: req.body,
+  };
+};
+const SIGNUP_VIEW = 'general/sign-up';
+const prepareSignupModel = function (req, validationMessages) {
+  return {
+    styles: [{ name: 'index.css' }, { name: 'form.css' }],
+    validationMessages,
+    values: req.body,
+  };
+};
+
 router.get('/', (req, res) => {
   res.render('general/home', {
     styles: [{ name: 'index.css' }, { name: 'home.css' }, { name: 'rentals.css' }],
@@ -12,15 +29,19 @@ router.get('/', (req, res) => {
 });
 
 router.get('/sign-up', (req, res) => {
-  res.render('general/sign-up', {
-    styles: [{ name: 'index.css' }, { name: 'form.css' }],
-  });
+  res.render(SIGNUP_VIEW, prepareSignupModel(req));
 });
 
 router.get('/log-in', (req, res) => {
-  res.render('general/log-in', {
-    styles: [{ name: 'index.css' }, { name: 'form.css' }],
-  });
+  if (req.session.user) {
+    if (!req.session.isCustomer) {
+      res.redirect('/rentals/list');
+    } else {
+      res.redirect('/cart');
+    }
+  } else {
+    res.render(LOGIN_VIEW, prepareLoginModel(req));
+  }
 });
 
 router.get('/welcome', (req, res) => {
@@ -30,8 +51,10 @@ router.get('/welcome', (req, res) => {
 });
 
 router.get('/cart', (req, res) => {
-  if (req.session.user && req.session.isCustomer) {
-    res.send('Welcome Customer!');
+  if (req.session && req.session.user && req.session.isCustomer) {
+    res.render('general/cart', {
+      styles: [{ name: 'index.css' }],
+    });
   } else {
     res.status(401).send('You are not authorized to view this page.');
   }
@@ -58,10 +81,12 @@ router.post('/log-in', (req, res) => {
       .then((user) => {
         if (user) {
           // Found the user document
+          //Compare the password
           bcryptjs.compare(loginPassword, user.password).then((pwMatched) => {
             if (pwMatched) {
               //Passwords match
               req.session.user = user;
+
               if (roles === 'dataEntry') {
                 req.session.isCustomer = false;
                 res.redirect('/rentals/list');
@@ -73,41 +98,24 @@ router.post('/log-in', (req, res) => {
             } else {
               //Password did not match
               console.log('Password does not match the database.');
-              delete req.body.password;
               validationMessages.loginError = 'Sorry, you entered an invalid email and/or password';
-              res.render('general/log-in', {
-                styles: [{ name: 'index.css' }, { name: 'form.css' }],
-                validationMessages,
-                values: req.body,
-              });
+              res.render(LOGIN_VIEW, prepareLoginModel(req, validationMessages));
             }
           });
         } else {
           //User was not found
           console.log('Email was not found in the database.');
           validationMessages.loginError = 'Sorry, you entered an invalid email and/or password';
-          res.render('general/log-in', {
-            styles: [{ name: 'index.css' }, { name: 'form.css' }],
-            validationMessages,
-            values: req.body,
-          });
+          res.render(LOGIN_VIEW, prepareLoginModel(req, validationMessages));
         }
       })
       .catch((err) => {
         console.log('Error finding the user in the database ... ' + err);
         validationMessages.loginError = 'Sorry, you entered an invalid email and/or password';
-        res.render('general/log-in', {
-          styles: [{ name: 'index.css' }, { name: 'form.css' }],
-          validationMessages,
-          values: req.body,
-        });
+        res.render(LOGIN_VIEW, prepareLoginModel(req, validationMessages));
       });
   } else {
-    res.render('general/log-in', {
-      styles: [{ name: 'index.css' }, { name: 'form.css' }],
-      validationMessages,
-      values: req.body,
-    });
+    res.render(LOGIN_VIEW, prepareLoginModel(req, validationMessages));
   }
 });
 
@@ -153,59 +161,65 @@ router.post('/sign-up', (req, res) => {
   }
 
   if (passedValidation) {
-    const userModel = require('../models/userModel');
-    const newUser = new userModel({
-      firstName: su_firstName,
-      lastName: su_lastName,
-      email: su_email,
-      password: su_password,
-    });
-    newUser
-      .save()
-      .then((userSaved) => {
-        console.log(`User ${userSaved.firstName} has been added to the database`);
-        //Send an email using SendGrid
-        const sgMail = require('@sendgrid/mail');
-        sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
-
-        const msg = {
-          to: su_email.trim(),
-          from: 'mdt.mrfdt@gmail.com',
-          subject: 'Account Created',
-          html: `<h3>Welcome to D|N Rentals!</h3>
-            <p>Hello <strong>${su_firstName} ${su_lastName}</strong>! <br/> We are thrilled to offer you a wide variety of properties for rent, from cozy apartments to luxurious villas, to help you find the perfect home that suits your needs and preferences. <br/><br/>
-            Thank you for choosing our property rental website, and we look forward to helping you find your perfect home!</p>
-            <h5>Marife Dela Torre</h5>
-            <h4>D|N Rentals</h4>`,
-        };
-        sgMail
-          .send(msg)
-          .then(() => {
-            res.redirect('/welcome');
-          })
-          .catch((err) => {
-            console.log(err);
-            res.render('general/sign-up', {
-              styles: [{ name: 'index.css' }, { name: 'form.css' }],
-            });
+    //Check the uniqueness of the email
+    userModel
+      .findOne({ email: su_email })
+      .then((user) => {
+        if (user) {
+          //If user is found
+          passedValidation = false;
+          validationMessages.email = 'Email address is already taken. Try another.';
+          res.render(SIGNUP_VIEW, prepareSignupModel(req, validationMessages));
+        } else {
+          const newUser = new userModel({
+            firstName: su_firstName,
+            lastName: su_lastName,
+            email: su_email,
+            password: su_password,
           });
+
+          newUser
+            .save()
+            .then((userSaved) => {
+              console.log(`User ${userSaved.firstName} has been added to the database`);
+              //Send an email using SendGrid
+              const sgMail = require('@sendgrid/mail');
+              sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
+
+              const msg = {
+                to: su_email.trim(),
+                from: 'mdt.mrfdt@gmail.com',
+                subject: 'Account Created',
+                html: `<h3>Welcome to D|N Rentals!</h3>
+                  <p>Hello <strong>${su_firstName} ${su_lastName}</strong>! <br/> We are thrilled to offer you a wide variety of properties for rent, from cozy apartments to luxurious villas, to help you find the perfect home that suits your needs and preferences. <br/><br/>
+                  Thank you for choosing our property rental website, and we look forward to helping you find your perfect home!</p>
+                  <h5>Marife Dela Torre</h5>
+                  <h4>D|N Rentals</h4>`,
+              };
+              sgMail
+                .send(msg)
+                .then(() => {
+                  res.redirect('/welcome');
+                })
+                .catch((err) => {
+                  console.log(err);
+                  validationMessages.emailError = 'Account created but email was not sent';
+                  res.render(SIGNUP_VIEW, prepareSignupModel(req, validationMessages));
+                });
+            })
+            .catch((err) => {
+              console.log(`Error adding user to the database ... ${err}`);
+              validationMessages.error = 'Failed to create an account for the user. Try again.';
+              res.render(SIGNUP_VIEW, prepareSignupModel(req, validationMessages));
+            });
+        }
       })
       .catch((err) => {
-        console.log(`Error adding user to the database ... ${err}`);
-        validationMessages.email = 'Email is already taken. Try another.';
-        req.body.su_email = '';
-        res.render('general/sign-up', {
-          styles: [{ name: 'index.css' }, { name: 'form.css' }],
-          validationMessages,
-          values: req.body,
-        });
+        console.log(`Error finding if email is taken ... ${err}`);
+        res.render(SIGNUP_VIEW, prepareSignupModel(req));
       });
   } else {
-    res.render('general/sign-up', {
-      styles: [{ name: 'index.css' }, { name: 'form.css' }],
-      validationMessages,
-      values: req.body,
-    });
+    res.render(SIGNUP_VIEW, prepareSignupModel(req, validationMessages));
   }
 });
 

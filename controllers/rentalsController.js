@@ -10,8 +10,10 @@ router.get('/', (req, res) => {
 });
 
 router.get('/list', (req, res) => {
-  if (req.session.user && !req.session.isCustomer) {
-    res.send('Welcome Data Clerk');
+  if (req.session && req.session.user && !req.session.isCustomer) {
+    res.render('rentals/list', {
+      styles: [{ name: 'index.css' }],
+    });
   } else {
     res.status(401).send('You are not authorized to view this page.');
   }
