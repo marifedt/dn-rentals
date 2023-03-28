@@ -67,6 +67,10 @@ var rentals = [
   },
 ];
 
+module.exports.getRentals = function () {
+  return rentals;
+};
+
 module.exports.getFeaturedRentals = function () {
   let featured = [];
 

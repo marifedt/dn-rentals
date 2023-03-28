@@ -15,6 +15,7 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const fileUpload = require('express-fileupload');
 
 //Setup dotenv
 const dotenv = require('dotenv');
@@ -35,6 +36,9 @@ app.set('view engine', '.hbs');
 
 //Set up body-parser
 app.use(express.urlencoded({ extended: false }));
+
+// Set up express-upload
+app.use(fileUpload());
 
 //Public folder
 app.use(express.static(path.join(__dirname, '/assets')));
@@ -57,9 +61,11 @@ app.use((req, res, next) => {
 //Load the controllers
 const generalController = require('./controllers/generalController');
 const rentalsController = require('./controllers/rentalsController');
+const loadDataController = require('./controllers/loadDataController');
 
 app.use('/', generalController);
 app.use('/rentals', rentalsController);
+app.use('/load-data/rentals', loadDataController);
 
 // *** DO NOT MODIFY THE LINES BELOW ***
 
