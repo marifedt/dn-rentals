@@ -1,0 +1,77 @@
+<section id='addRental-w' class='container-fluid d-flex align-items-center justify-content-center py-4'>
+  {{#if messages.notClerk}}
+    <h1 style='color:white'>{{messages.notClerk}}</h1>
+  {{else}}
+    <form method='post' action='/rentals/add' enctype='multipart/form-data' class='row container col-lg-6 g-3 mx-auto rounded px-4'>
+      <div class='col-md-12'>
+        {{#if messages.form}}
+          <h6 class='text-center mb-4' style='color: #184d47;'>{{messages.error}}</h6>
+        {{/if}}
+        <h2 class='text-center mb-4 fw-bolder'>New Rental</h2>
+      </div>
+      <div class='col-md-12'>
+        <label for='headLine'>Headline</label>
+        <input class='form-control' type='text' id='headLine' name='headLine' value='{{values.headLine}}' />
+        {{#if messages.headLine}}
+          <span style='color: red;'>{{messages.headLine}}</span>
+        {{/if}}
+      </div>
+      <div class='col-sm-4'>
+        <label for='numSleeps'>Guests</label>
+        <input class='form-control' placeholder='0-100' type='number' id='numSleeps' name='numSleeps' min='0' max='100' value='{{values.numSleeps}}' />
+        {{#if messages.numSleeps}}
+          <span style='color: red;'>{{messages.numSleeps}}</span>
+        {{/if}}
+      </div>
+      <div class='col-sm-4'>
+        <label for='numBedrooms'>Bedrooms</label>
+        <input class='form-control' placeholder='0-100' type='number' id='numBedrooms' name='numBedrooms' min='0' max='100' value='{{values.numBedrooms}}' />
+        {{#if messages.numBedrooms}}
+          <span style='color: red;'>{{messages.numBedrooms}}</span>
+        {{/if}}
+      </div>
+      <div class='col-sm-4'>
+        <label for='numBathrooms'>Bathrooms</label>
+        <input class='form-control' placeholder='0-100' type='number' id='numBathrooms' name='numBathrooms' min='0' max='100' value='{{values.numBathrooms}}' />
+        {{#if messages.numBathrooms}}
+          <span style='color: red;'>{{messages.numBathrooms}}</span>
+        {{/if}}
+      </div>
+      <div class='col-md-4'>
+        <label for='pricePerNight'>Price per night</label>
+        <input class='form-control' placeholder='Ex. 200.00' type='number' id='pricePerNight' name='pricePerNight' min='0.01' step='0.01' value='{{values.pricePerNight}}' />
+        {{#if messages.pricePerNight}}
+          <span style='color: red;'>{{messages.pricePerNight}}</span>
+        {{/if}}
+      </div>
+      <div class='col-md-4'>
+        <label for='city'>City</label>
+        <input class='form-control' type='text' id='city' name='city' value='{{values.city}}' />
+        {{#if messages.city}}
+          <span style='color: red;'>{{messages.city}}</span>
+        {{/if}}
+      </div>
+      <div class='col-md-4'>
+        <label for='province'>Province</label>
+        <input class='form-control' type='text' id='province' name='province' value='{{values.province}}' />
+        {{#if messages.province}}
+          <span style='color: red;'>{{messages.province}}</span>
+        {{/if}}
+      </div>
+      <div class='col-md-6 mb-3'>
+        <label for='imageUrl' class='form-label'>Rental Image</label>
+        <input class='form-control' type='file' id='imageUrl' name='imageUrl' accept='.jpg,.jpeg,.gif,.png' />
+        {{#if messages.imageUrl}}
+          <span style='color: red;'>{{messages.imageUrl}}</span>
+        {{/if}}
+      </div>
+      <div class='col-md-12 mb-3 form-check form-check-lg mx-2'>
+        <input class='form-check-input' type='checkbox' id='featuredRental' name='featuredRental' value='false' />
+        <label class='form-check-label' for='featuredRental'>Featured rental</label>
+      </div>
+      <div class='mx-auto'>
+        <input type='submit' id='addBtn' class='btn container bg-green fs-4' value='Add Rental' />
+      </div>
+    </form>
+  {{/if}}
+</section>

@@ -1,3 +1,4 @@
+#addRental-w,
 #signup-w,
 #login-w {
   color: #184d47;
@@ -25,6 +26,8 @@ form label {
   color: #184d47;
   font-weight: 600;
 }
+
+input[type='checkbox'],
 input[type='radio'] {
   -webkit-appearance: none;
   appearance: none;
