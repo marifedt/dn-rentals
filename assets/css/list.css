@@ -1,0 +1,20 @@
+#clerkList {
+  background-color: #31af9c;
+  min-height: 90vh;
+}
+
+#clerkList a:hover {
+  background-color: white;
+  color: #184d47;
+  font-weight: 600;
+}
+
+.bg-green {
+  color: white;
+  background-color: #184d47;
+}
+
+table .btn {
+  background-color: #1e6159;
+  color: white;
+}

@@ -1,1 +1,53 @@
-<h2 class='dGreen'>Welcome Data Clerk!</h2>
+<section id='clerkList' class='container-fluid d-flex justify-content-center align-items-center'>
+  {{#if message}}
+    <h1 class='dGreen'>{{message}}</h1>
+  {{else}}
+    {{#if rentals.length}}
+      <div class='table-responsive d-flex flex-column align-items-start'>
+        <h2 class='my-2'>List of Rentals</h2>
+        <table class='table table-dark'>
+          <thead>
+            <tr>
+              <th scope='col'>Rental Title</th>
+              <th scope='col' class='text-center'>Number of Guests</th>
+              <th scope='col' class='text-wrap text-center'>Number of Bedrooms</th>
+              <th scope='col' class='text-wrap text-center'>Number of Bathrooms</th>
+              <th scope='col' class='text-wrap text-center'>Nightly Rental Rate</th>
+              <th scope='col'>City </th>
+              <th scope='col'>Province </th>
+              <th scope='col'>Image URL </th>
+              <th scope='col' class='text-center'>Featured Rental</th>
+              <th scope='col' class='text-center' colspan='2'>Actions</th>
+            </tr>
+          </thead>
+          <tbody class='table-group-divider'>
+            {{#each rentals}}
+              <tr>
+                <td scope='row'>{{headLine}}</td>
+                <td class='col-auto text-center'>{{numSleeps}}</td>
+                <td class='col-auto text-center'>{{numBedrooms}}</td>
+                <td class='col-auto text-center'>{{numBathrooms}}</td>
+                <td class='col-auto text-center'>C$ {{pricePerNight}}</td>
+                <td class='col'>{{city}}</td>
+                <td class='col'>{{province}}</td>
+                <td class='col'>{{imageUrl}}</td>
+                {{#if featuredRental}}
+                  <td class='text-center col'><i class='fa-solid fa-circle-check'></i></td>
+                {{else}}
+                  <td class='text-center col'><i class='fa-solid fa-circle-xmark'></i></td>
+                {{/if}}
+                <td class='col'><button class='btn' type='button' onclick="window.location.href='/rentals/edit/{{headLine}}'">Edit</button></td>
+                <td class='col'><button class='btn' type='button' onclick="window.location.href='/rentals/remove/{{headLine}}'">Remove</button></td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+        <a class='btn bg-green col-3 mt-4' href='/load-data/rentals mt-4'>Load Rentals Data</a>
+      </div>
+    {{else}}
+      <div class='row col col-md-2 mt-4 justify-content-center align-items-center'>
+        <a class='btn bg-green' href='/load-data/rentals'>Load Rentals Data</a>
+      </div>
+    {{/if}}
+  {{/if}}
+</section>
