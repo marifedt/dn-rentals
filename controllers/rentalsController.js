@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const router = express.Router();
 const rentalModel = require('../models/rentalModel');
@@ -43,12 +44,19 @@ router.get('/list', (req, res) => {
 });
 
 const ADD_VIEW = 'rentals/addRental';
-const prepareAddModel = function (req, messages) {
-  return {
-    styles: [{ name: 'index.css' }, { name: 'form.css' }],
-    messages,
-    values: req.body,
-  };
+const prepareAddModel = function (req, messages, isAdded = false) {
+  if (isAdded) {
+    return {
+      styles: [{ name: 'index.css' }, { name: 'form.css' }],
+      messages,
+    };
+  } else {
+    return {
+      styles: [{ name: 'index.css' }, { name: 'form.css' }],
+      messages,
+      values: req.body,
+    };
+  }
 };
 
 //Route to add a Rental (GET)
@@ -142,19 +150,62 @@ router.post('/add', (req, res) => {
     }
   }
 
+  //For checkbox value
+  let featured = true;
+  if (featuredRental !== 'yes') {
+    featured = false;
+  }
+
   if (passedValidation) {
-    messages.form = 'Success!';
-    console.log('Successfully validated');
-    res.render('rentals/addRental', {
-      styles: [{ name: 'index.css' }, { name: 'form.css' }],
-      messages,
+    const newRental = new rentalModel({
+      headLine,
+      numSleeps,
+      numBedrooms,
+      numBathrooms,
+      pricePerNight,
+      city,
+      province,
+      imageUrl: 'default-pic.jpg',
+      featuredRental: featured,
+    });
+
+    newRental.save().then((rentalSaved) => {
+      console.log(`Rental ${rentalSaved.headLine} has been added to the database`);
+      messages.form = 'Rental has been added to the database';
+      //Create a unique name for the image, to store in the file system
+      let uniqueName = `rental-pic-${rentalSaved._id}${path.parse(req.files.imageUrl.name).ext}`;
+
+      //Copy the image data to a file in the 'assets/rental-pics' folder
+      req.files.imageUrl
+        .mv(`assets/rental-pics/${uniqueName}`)
+        .then(() => {
+          rentalModel
+            .updateOne(
+              { _id: rentalSaved._id },
+              {
+                imageUrl: uniqueName,
+              }
+            )
+            .then(() => {
+              //Success
+              console.log('Updated the rental pic.');
+              messages.rentalPic = 'Rental picture is updated';
+              res.render(ADD_VIEW, prepareAddModel(req, messages, true));
+            })
+            .catch((err) => {
+              console.log(`Error updating the rental's pic... ${err}`);
+              messages.rentalPic = 'Failed to update the rental pic';
+              res.render(ADD_VIEW, prepareAddModel(req, messages, true));
+            });
+        })
+        .catch((err) => {
+          console.log(`Error adding rental to the database ... ${err}`);
+          messages.form = 'Failed to add rental to the database';
+          res.render(ADD_VIEW, prepareAddModel(req, messages));
+        });
     });
   } else {
-    res.render('rentals/addRental', {
-      styles: [{ name: 'index.css' }, { name: 'form.css' }],
-      messages,
-      values: req.body,
-    });
+    res.render(ADD_VIEW, prepareAddModel(req, messages));
   }
 });
 

@@ -40,7 +40,7 @@ router.get('/', (req, res) => {
       });
   } else {
     res.status(401);
-    res.render(LOAD_DATA_VIEW, prepareLoadDataModel(req, 'You are not authorized to view this page.'));
+    res.render(LOAD_DATA_VIEW, prepareLoadDataModel(req, 'You are not authorized to add rentals'));
   }
 });
 
