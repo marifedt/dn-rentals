@@ -3,8 +3,8 @@
     <h1 class='dGreen'>{{message}}</h1>
   {{else}}
     {{#if rentals.length}}
-      <div class='table-responsive d-flex flex-column align-items-start'>
-        <h2 class='my-2'>List of Rentals</h2>
+      <div class='table-responsive d-flex flex-column align-items-center'>
+        <h2 class='my-2 align-self-start'>List of Rentals</h2>
         <table class='table table-dark'>
           <thead>
             <tr>
@@ -36,16 +36,19 @@
                 {{else}}
                   <td class='text-center col'><i class='fa-solid fa-circle-xmark'></i></td>
                 {{/if}}
-                <td class='col'><button class='btn' type='button' onclick="window.location.href='/rentals/edit/{{headLine}}'">Edit</button></td>
-                <td class='col'><button class='btn' type='button' onclick="window.location.href='/rentals/remove/{{headLine}}'">Remove</button></td>
+                <td class='col'><button class='btn' type='button' onclick="window.location.href='/rentals/edit/{{_id}}'">Edit</button></td>
+                <td class='col'><button class='btn' type='button' onclick="window.location.href='/rentals/remove/{{_id}}'">Remove</button></td>
               </tr>
             {{/each}}
           </tbody>
         </table>
-        <a class='btn bg-green col-3 mt-4' href='/load-data/rentals mt-4'>Load Rentals Data</a>
+        <div class='table-responsive d-flex gap-2 my-4 px-2 justify-content-center align-items-center'>
+          <a class='btn bg-green' href='/load-data/rentals'>Load Rentals Data</a>
+          <a class='btn bg-green' href='/rentals/add'>Add Rental</a>
+        </div>
       </div>
     {{else}}
-      <div class='row col col-md-2 mt-4 justify-content-center align-items-center'>
+      <div class='row col col-md-2 my-4 justify-content-center align-items-center'>
         <a class='btn bg-green' href='/load-data/rentals'>Load Rentals Data</a>
       </div>
     {{/if}}
