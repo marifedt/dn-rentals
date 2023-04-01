@@ -7,7 +7,7 @@ var rentals = [
     pricePerNight: 45,
     city: 'St. Catharines',
     province: 'Ontario',
-    imageUrl: 'house4.jpg',
+    imageUrl: '/rental-pics/house4.jpg',
     featuredRental: false,
   },
   {
@@ -18,7 +18,7 @@ var rentals = [
     pricePerNight: 85,
     city: 'St. Catharines',
     province: 'Ontario',
-    imageUrl: 'calford.jpg',
+    imageUrl: '/rental-pics/calford.jpg',
     featuredRental: false,
   },
   {
@@ -29,7 +29,7 @@ var rentals = [
     pricePerNight: 215,
     city: 'St. Catharines',
     province: 'Ontario',
-    imageUrl: 'bungalow.jpg',
+    imageUrl: '/rental-pics/bungalow.jpg',
     featuredRental: true,
   },
   {
@@ -40,7 +40,7 @@ var rentals = [
     pricePerNight: 25,
     city: 'St. Catharines',
     province: 'Ontario',
-    imageUrl: 'lombardy.jpg',
+    imageUrl: '/rental-pics/lombardy.jpg',
     featuredRental: false,
   },
   {
@@ -51,7 +51,7 @@ var rentals = [
     pricePerNight: 600,
     city: 'Niagara Falls',
     province: 'Ontario',
-    imageUrl: 'bighouse.jpg',
+    imageUrl: '/rental-pics/bighouse.jpg',
     featuredRental: true,
   },
   {
@@ -62,7 +62,7 @@ var rentals = [
     pricePerNight: 200,
     city: 'Niagara Falls',
     province: 'Ontario',
-    imageUrl: 'house3.jpg',
+    imageUrl: '/rental-pics/house3.jpg',
     featuredRental: true,
   },
 ];
