@@ -8,49 +8,49 @@
       </div>
       <div class='col-md-12'>
         <label for='headLine'>Headline</label>
-        <input class='form-control' type='text' id='headLine' name='headLine' value='{{rental.headLine}}' />
+        <input class='form-control' type='text' id='headLine' name='headLine' value='{{rental.headLine}}' required />
         {{#if messages.headLine}}
           <span style='color: red;'>{{messages.headLine}}</span>
         {{/if}}
       </div>
       <div class='col-sm-4'>
         <label for='numSleeps'>Guests</label>
-        <input class='form-control' placeholder='0-100' type='number' id='numSleeps' name='numSleeps' min='0' max='100' value='{{rental.numSleeps}}' />
+        <input class='form-control' placeholder='0-100' type='number' id='numSleeps' name='numSleeps' min='0' max='100' value='{{rental.numSleeps}}' required />
         {{#if messages.numSleeps}}
           <span style='color: red;'>{{messages.numSleeps}}</span>
         {{/if}}
       </div>
       <div class='col-sm-4'>
         <label for='numBedrooms'>Bedrooms</label>
-        <input class='form-control' placeholder='0-100' type='number' id='numBedrooms' name='numBedrooms' min='0' max='100' value='{{rental.numBedrooms}}' />
+        <input class='form-control' placeholder='0-100' type='number' id='numBedrooms' name='numBedrooms' min='0' max='100' value='{{rental.numBedrooms}}' required />
         {{#if messages.numBedrooms}}
           <span style='color: red;'>{{messages.numBedrooms}}</span>
         {{/if}}
       </div>
       <div class='col-sm-4'>
         <label for='numBathrooms'>Bathrooms</label>
-        <input class='form-control' placeholder='0-100' type='number' id='numBathrooms' name='numBathrooms' min='0' max='100' value='{{rental.numBathrooms}}' />
+        <input class='form-control' placeholder='0-100' type='number' id='numBathrooms' name='numBathrooms' min='0' max='100' value='{{rental.numBathrooms}}' required />
         {{#if messages.numBathrooms}}
           <span style='color: red;'>{{messages.numBathrooms}}</span>
         {{/if}}
       </div>
       <div class='col-md-4'>
         <label for='pricePerNight'>Price per night</label>
-        <input class='form-control' placeholder='Ex. 200.00' type='number' id='pricePerNight' name='pricePerNight' min='0.01' step='0.01' value='{{rental.pricePerNight}}' />
+        <input class='form-control' placeholder='Ex. 200.00' type='number' id='pricePerNight' name='pricePerNight' min='0.01' step='0.01' value='{{rental.pricePerNight}}' required />
         {{#if messages.pricePerNight}}
           <span style='color: red;'>{{messages.pricePerNight}}</span>
         {{/if}}
       </div>
       <div class='col-md-4'>
         <label for='city'>City</label>
-        <input class='form-control' type='text' id='city' name='city' value='{{rental.city}}' />
+        <input class='form-control' type='text' id='city' name='city' value='{{rental.city}}' required />
         {{#if messages.city}}
           <span style='color: red;'>{{messages.city}}</span>
         {{/if}}
       </div>
       <div class='col-md-4'>
         <label for='province'>Province</label>
-        <input class='form-control' type='text' id='province' name='province' value='{{rental.province}}' />
+        <input class='form-control' type='text' id='province' name='province' value='{{rental.province}}' required />
         {{#if messages.province}}
           <span style='color: red;'>{{messages.province}}</span>
         {{/if}}

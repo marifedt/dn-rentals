@@ -1,10 +1,10 @@
-<section id='clerkList' class='container-fluid d-flex justify-content-center align-items-center'>
+<section id='clerkList' class='container-fluid row justify-content-center align-items-center'>
   {{#if message}}
     <h1 class='dGreen'>{{message}}</h1>
   {{else}}
     {{#if rentals.length}}
-      <div class='table-responsive d-flex flex-column align-items-center'>
-        <h2 class='my-2 align-self-start'>List of Rentals</h2>
+      <div class='row px-2 mt-3 table-responsive container-fluid col-xxl-10'>
+        <h2 class='mt-4 pt-4 align-self-center row'>List of Rentals</h2>
         <table class='table table-dark'>
           <thead>
             <tr>
@@ -24,25 +24,27 @@
             {{#each rentals}}
               <tr>
                 <td scope='row'>{{headLine}}</td>
-                <td class='col-auto text-center'>{{numSleeps}}</td>
-                <td class='col-auto text-center'>{{numBedrooms}}</td>
-                <td class='col-auto text-center'>{{numBathrooms}}</td>
-                <td class='col-auto text-center'>C$ {{pricePerNight}}</td>
-                <td class='col'>{{city}}</td>
-                <td class='col'>{{province}}</td>
-                <td class='col'>{{imageUrl}}</td>
+                <td class='text-center'>{{numSleeps}}</td>
+                <td class='text-center'>{{numBedrooms}}</td>
+                <td class='text-center'>{{numBathrooms}}</td>
+                <td class='text-center'>C$ {{pricePerNight}}</td>
+                <td>{{city}}</td>
+                <td>{{province}}</td>
+                <td>{{imageUrl}}</td>
                 {{#if featuredRental}}
-                  <td class='text-center col'><i class='fa-solid fa-circle-check'></i></td>
+                  <td class='text-center'><i class='fa-solid fa-circle-check'></i></td>
                 {{else}}
-                  <td class='text-center col'><i class='fa-solid fa-circle-xmark'></i></td>
+                  <td class='text-center'><i class='fa-solid fa-circle-xmark'></i></td>
                 {{/if}}
-                <td class='col'><button class='btn' type='button' onclick="window.location.href='/rentals/edit/{{_id}}'">Edit</button></td>
-                <td class='col'><button class='btn' type='button' onclick="window.location.href='/rentals/remove/{{_id}}'">Remove</button></td>
+                <td><button class='btn' type='button' onclick="window.location.href='/rentals/edit/{{_id}}'">Edit</button></td>
+                <td><button class='btn' type='button' onclick="window.location.href='/rentals/remove/{{_id}}'">Remove</button></td>
               </tr>
             {{/each}}
           </tbody>
         </table>
-        <div class='table-responsive d-flex gap-2 my-4 px-2 justify-content-center align-items-center'>
+      </div>
+      <div class='row mt-3 mb-4 align-items-center'>
+        <div class='d-flex gap-2 py-2 justify-content-center align-items-center'>
           <a class='btn bg-green' href='/load-data/rentals'>Load Rentals Data</a>
           <a class='btn bg-green' href='/rentals/add'>Add Rental</a>
         </div>

@@ -18,3 +18,8 @@ table .btn {
   background-color: #1e6159;
   color: white;
 }
+
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
