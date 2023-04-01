@@ -1,3 +1,4 @@
+const fs = require('fs').promises;
 const path = require('path');
 const express = require('express');
 const router = express.Router();
@@ -6,6 +7,7 @@ const rentalModel = require('../models/rentalModel');
 const validExtensions = ['.jpg', '.jpeg', '.gif', '.png'];
 const validContentTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
+//Route for rentals page
 router.get('/', (req, res) => {
   //TODO: Update this to get data from database
   res.render('rentals/rentals', {
@@ -14,6 +16,7 @@ router.get('/', (req, res) => {
   });
 });
 
+//Route for rental list (for Data Clerk)
 router.get('/list', (req, res) => {
   if (req.session && req.session.user && !req.session.isCustomer) {
     rentalModel
@@ -73,7 +76,7 @@ router.get('/add', (req, res) => {
 
 //Route to add a Rental (POST)
 router.post('/add', (req, res) => {
-  const { headLine, numSleeps, numBedrooms, numBathrooms, pricePerNight, city, province, featuredRental } = req.body;
+  let { headLine, numSleeps, numBedrooms, numBathrooms, pricePerNight, city, province, featuredRental } = req.body;
 
   let messages = {};
   let passedValidation = true;
@@ -85,41 +88,41 @@ router.post('/add', (req, res) => {
   }
 
   //Validation for Number of Guests
-  let sleeps = parseInt(numSleeps);
-  if (Number.isNaN(sleeps)) {
+  numSleeps = parseInt(numSleeps);
+  if (Number.isNaN(numSleeps)) {
     passedValidation = false;
     messages.numSleeps = 'Please specify a number';
-  } else if (sleeps < 0 || sleeps > 100) {
+  } else if (numSleeps < 0 || numSleeps > 100) {
     passedValidation = false;
     messages.numSleeps = 'It should be between 0 and 100';
   }
 
   //Validation for Number of Bedrooms
-  let bedrooms = parseInt(numBedrooms);
-  if (Number.isNaN(bedrooms)) {
+  numBedrooms = parseInt(numBedrooms);
+  if (Number.isNaN(numBedrooms)) {
     passedValidation = false;
     messages.numBedrooms = 'Please specify a number';
-  } else if (bedrooms < 0 || bedrooms > 100) {
+  } else if (numBedrooms < 0 || numBedrooms > 100) {
     passedValidation = false;
     messages.numBedrooms = 'It should be between 0 and 100';
   }
 
   //Validation for Number of Bathrooms
-  let bathrooms = parseInt(numBathrooms);
-  if (Number.isNaN(bathrooms)) {
+  numBathrooms = parseInt(numBathrooms);
+  if (Number.isNaN(numBathrooms)) {
     passedValidation = false;
     messages.numBathrooms = 'Please specify a number';
-  } else if (bathrooms < 0 || bathrooms > 100) {
+  } else if (numBathrooms < 0 || numBathrooms > 100) {
     passedValidation = false;
     messages.numBathrooms = 'It should be between 0 and 100';
   }
 
   //Validation for Price
-  let price = parseFloat(pricePerNight);
-  if (Number.isNaN(price)) {
+  pricePerNight = parseFloat(pricePerNight).toFixed(2);
+  if (Number.isNaN(pricePerNight)) {
     passedValidation = false;
     messages.pricePerNight = 'Please specify a number';
-  } else if (price < 0 || (Math.floor(price) !== price && (price * 100) % 1 !== 0)) {
+  } else if (pricePerNight < 0 || (Math.floor(pricePerNight) !== pricePerNight && (pricePerNight * 100) % 1 !== 0)) {
     passedValidation = false;
     messages.pricePerNight = 'Minimum value is 0.01';
   }
@@ -239,7 +242,7 @@ router.get('/edit/:id', (req, res) => {
 //Route to edit a rental (POST)
 router.post('/edit/:id', (req, res) => {
   const rentalId = req.params.id;
-  const { headLine, numSleeps, numBedrooms, numBathrooms, pricePerNight, city, province, featuredRental } = req.body;
+  let { headLine, numSleeps, numBedrooms, numBathrooms, pricePerNight, city, province, featuredRental } = req.body;
   let messages = {};
   let passedValidation = true;
   let newImage = true;
@@ -251,41 +254,41 @@ router.post('/edit/:id', (req, res) => {
   }
 
   //Validation for Number of Guests
-  let sleeps = parseInt(numSleeps);
-  if (Number.isNaN(sleeps)) {
+  numSleeps = parseInt(numSleeps);
+  if (Number.isNaN(numSleeps)) {
     passedValidation = false;
     messages.numSleeps = 'Please specify a number';
-  } else if (sleeps < 0 || sleeps > 100) {
+  } else if (numSleeps < 0 || numSleeps > 100) {
     passedValidation = false;
     messages.numSleeps = 'It should be between 0 and 100';
   }
 
   //Validation for Number of Bedrooms
-  let bedrooms = parseInt(numBedrooms);
-  if (Number.isNaN(bedrooms)) {
+  numBedrooms = parseInt(numBedrooms);
+  if (Number.isNaN(numBedrooms)) {
     passedValidation = false;
     messages.numBedrooms = 'Please specify a number';
-  } else if (bedrooms < 0 || bedrooms > 100) {
+  } else if (numBedrooms < 0 || numBedrooms > 100) {
     passedValidation = false;
     messages.numBedrooms = 'It should be between 0 and 100';
   }
 
   //Validation for Number of Bathrooms
-  let bathrooms = parseInt(numBathrooms);
-  if (Number.isNaN(bathrooms)) {
+  numBathrooms = parseInt(numBathrooms);
+  if (Number.isNaN(numBathrooms)) {
     passedValidation = false;
     messages.numBathrooms = 'Please specify a number';
-  } else if (bathrooms < 0 || bathrooms > 100) {
+  } else if (numBathrooms < 0 || numBathrooms > 100) {
     passedValidation = false;
     messages.numBathrooms = 'It should be between 0 and 100';
   }
 
   //Validation for Price
-  let price = parseFloat(pricePerNight);
-  if (Number.isNaN(price)) {
+  pricePerNight = parseFloat(pricePerNight).toFixed(2);
+  if (Number.isNaN(pricePerNight)) {
     passedValidation = false;
     messages.pricePerNight = 'Please specify a number';
-  } else if (price < 0 || (Math.floor(price) !== price && (price * 100) % 1 !== 0)) {
+  } else if (pricePerNight < 0 || (Math.floor(pricePerNight) !== pricePerNight && (pricePerNight * 100) % 1 !== 0)) {
     passedValidation = false;
     messages.pricePerNight = 'Minimum value is 0.01';
   }
@@ -393,5 +396,47 @@ router.post('/edit/:id', (req, res) => {
       },
     });
   }
+});
+
+//Route to remove a rental (GET)
+router.get('/remove/:id', (req, res) => {
+  let messages = {};
+  if (req.session && req.session.user && !req.session.isCustomer) {
+    res.render('rentals/remove', {
+      styles: [{ name: 'index.css' }, { name: 'list.css' }],
+      id: req.params.id,
+    });
+  } else {
+    messages.notClerk = 'You are not authorized to view this page';
+    res.status(401);
+    res.render('rentals/remove', {
+      styles: [{ name: 'index.css' }],
+      messages,
+    });
+  }
+});
+
+//Route to remove a rental (POST)
+router.post('/remove/:id', (req, res) => {
+  const rentalId = req.params.id;
+
+  rentalModel
+    .findByIdAndRemove(rentalId)
+    .then((rental) => {
+      console.log(`Rental "${rental.headLine}" removed`);
+      fs.rm(`assets/rental-pics/${rental.imageUrl}`)
+        .then(() => {
+          console.log('File removed successfully');
+          res.redirect('/rentals/list');
+        })
+        .catch((err) => {
+          console.log('Failed to remove file... ' + err);
+          res.redirect('/rentals/list');
+        });
+    })
+    .catch((err) => {
+      console.log('Failed to remove rental ...' + err);
+      res.redirect('/rentals/list');
+    });
 });
 module.exports = router;

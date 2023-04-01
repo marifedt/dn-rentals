@@ -3,6 +3,7 @@
   min-height: 90vh;
 }
 
+#clerkList button:hover,
 #clerkList a:hover {
   background-color: white;
   color: #184d47;
