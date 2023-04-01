@@ -3,6 +3,7 @@ const router = express.Router();
 const rentalList = require('../models/rentals-db');
 const userModel = require('../models/userModel');
 const bcryptjs = require('bcryptjs');
+const rentalModel = require('../models/rentalModel');
 
 const LOGIN_VIEW = 'general/log-in';
 const prepareLoginModel = function (req, validationMessages) {
@@ -22,10 +23,23 @@ const prepareSignupModel = function (req, validationMessages) {
 };
 
 router.get('/', (req, res) => {
-  res.render('general/home', {
-    styles: [{ name: 'index.css' }, { name: 'home.css' }, { name: 'rentals.css' }],
-    rentals: rentalList.getFeaturedRentals(),
-  });
+  rentalModel
+    .find({ featuredRental: true })
+    .exec()
+    .then((data) => {
+      let rentals = data.map((value) => value.toObject());
+      res.render('general/home', {
+        styles: [{ name: 'index.css' }, { name: 'home.css' }, { name: 'rentals.css' }],
+        rentals,
+      });
+    })
+    .catch((err) => {
+      console.log('Error getting rentals from the database... ' + err);
+      res.render('general/home', {
+        styles: [{ name: 'index.css' }, { name: 'home.css' }, { name: 'rentals.css' }],
+        rentals: [],
+      });
+    });
 });
 
 router.get('/sign-up', (req, res) => {
