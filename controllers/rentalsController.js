@@ -209,15 +209,6 @@ router.post('/add', (req, res) => {
   }
 });
 
-const EDIT_VIEW = 'rentals/edit';
-const prepareEditModel = function (req, messages) {
-  return {
-    styles: [{ name: 'index.css' }, { name: 'form.css' }],
-    messages,
-    rental: req.body,
-  };
-};
-
 //Route to edit a rental (GET)
 router.get('/edit/:id', (req, res) => {
   let messages = {};
@@ -233,7 +224,7 @@ router.get('/edit/:id', (req, res) => {
       })
       .catch((err) => {
         console.log(`Error getting the rental from the database ... ${err}`);
-        res.redirect('/rental/list');
+        res.redirect('/rentals/list');
       });
   } else {
     messages.notClerk = 'You are not authorized to view this page';
@@ -252,6 +243,7 @@ router.post('/edit/:id', (req, res) => {
   let messages = {};
   let passedValidation = true;
   let newImage = true;
+
   //Validation for headline
   if (typeof headLine !== 'string' || headLine.trim().length === 0) {
     passedValidation = false;
@@ -330,7 +322,7 @@ router.post('/edit/:id', (req, res) => {
 
   if (passedValidation) {
     rentalModel
-      .updateOne(
+      .findOneAndUpdate(
         { _id: rentalId },
         {
           $set: {
@@ -363,13 +355,11 @@ router.post('/edit/:id', (req, res) => {
                 )
                 .then(() => {
                   //Success
-                  console.log('Updated the rental pic.');
-                  // messages.rentalPic = 'Rental picture is updated';
+                  console.log('Rental picture updated successfully');
                   res.redirect('/rentals/list');
                 })
                 .catch((err) => {
                   console.log(`Error updating the rental's pic... ${err}`);
-                  // messages.rentalPic = 'Failed to update the rental pic';
                   res.redirect('/rentals/list');
                 });
             })
@@ -378,6 +368,7 @@ router.post('/edit/:id', (req, res) => {
               res.redirect('/rentals/list');
             });
         } else {
+          console.log('Rental is updated');
           res.redirect('/rentals/list');
         }
       })
@@ -386,10 +377,20 @@ router.post('/edit/:id', (req, res) => {
         res.redirect('/rentals/list');
       });
   } else {
-    res.render('rental/edit', {
+    res.render('rentals/edit', {
       styles: [{ name: 'index.css' }, { name: 'form.css' }],
       messages,
-      rental: req.body,
+      rental: {
+        _id: rentalId,
+        headLine,
+        numSleeps,
+        numBedrooms,
+        numBathrooms,
+        pricePerNight,
+        city,
+        province,
+        featuredRental: featured,
+      },
     });
   }
 });
