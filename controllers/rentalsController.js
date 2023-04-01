@@ -9,11 +9,28 @@ const validContentTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
 //Route for rentals page
 router.get('/', (req, res) => {
-  //TODO: Update this to get data from database
-  res.render('rentals/rentals', {
-    styles: [{ name: 'index.css' }, { name: 'rentals.css' }],
-    grpRentals: [...rentalList.getRentalsByCityAndProvince()],
-  });
+  rentalModel
+    .aggregate([
+      {
+        $group: {
+          _id: { city: '$city', province: '$province' },
+          rentals: { $push: '$$ROOT' },
+        },
+      },
+    ])
+    .then((grpRentals) => {
+      res.render('rentals/rentals', {
+        styles: [{ name: 'index.css' }, { name: 'rentals.css' }],
+        grpRentals,
+      });
+    })
+    .catch((err) => {
+      console.log('Error getting data from database ... ' + err);
+      res.render('rentals/rentals', {
+        styles: [{ name: 'index.css' }, { name: 'rentals.css' }],
+        grpRentals: [],
+      });
+    });
 });
 
 //Route for rental list (for Data Clerk)
