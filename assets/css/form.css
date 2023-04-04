@@ -1,12 +1,3 @@
-#edit-w,
-#addRental-w,
-#signup-w,
-#login-w {
-  color: #184d47;
-  background-color: #31af9c;
-  min-height: 90vh;
-}
-
 .bg-green {
   color: white;
   background-color: #184d47;

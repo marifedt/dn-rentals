@@ -1,6 +1,6 @@
 <section id='clerkList' class='container-fluid row justify-content-center align-items-center'>
   {{#if messages.notClerk}}
-    <h1 class='dGreen text-center'>{{messages.notClerk}}</h1>
+    <h1 style='color:white' class='text-center'>{{messages.notClerk}}</h1>
   {{else}}
     <form method='post' action='/rentals/remove/{{id}}' class='row container col-lg-6 g-3 mx-auto rounded px-4'>
       <div class='form-floating mb-3'>

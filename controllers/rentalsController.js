@@ -427,7 +427,7 @@ router.get('/remove/:id', (req, res) => {
     messages.notClerk = 'You are not authorized to view this page';
     res.status(401);
     res.render('rentals/remove', {
-      styles: [{ name: 'index.css' }],
+      styles: [{ name: 'index.css' }, { name: 'list.css' }],
       messages,
     });
   }

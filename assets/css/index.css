@@ -85,3 +85,14 @@ img {
 .footer-socials a:hover {
   color: #31af9c;
 }
+
+/* Sections */
+#sCart,
+#edit-w,
+#addRental-w,
+#signup-w,
+#login-w {
+  color: #184d47;
+  background-color: #31af9c;
+  min-height: 90vh;
+}

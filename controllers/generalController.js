@@ -68,9 +68,14 @@ router.get('/cart', (req, res) => {
   if (req.session && req.session.user && req.session.isCustomer) {
     res.render('general/cart', {
       styles: [{ name: 'index.css' }],
+      message: 'Welcome to Cart',
     });
   } else {
-    res.status(401).send('You are not authorized to view this page.');
+    res.status(401);
+    res.render('general/cart', {
+      styles: [{ name: 'index.css' }],
+      message: 'You are not authorized to view this page.',
+    });
   }
 });
 
@@ -238,8 +243,10 @@ router.post('/sign-up', (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-  // Clear the session from memory.
-  req.session.destroy();
+  if (req.session.user) {
+    // Clear the session from memory.
+    req.session.destroy();
+  }
   res.redirect('/log-in');
 });
 
