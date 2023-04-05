@@ -1,5 +1,69 @@
 <section id='sCart' style='background-color: #31af9c;' class='container-fluid row justify-content-center align-items-center'>
-  {{#if message}}
-    <h1 style='color:white' class='text-center'>{{message}}</h1>
+  {{#if messages.notCustomer}}
+    <h1 style='color:white' class='text-center'>{{messages.notCustomer}}</h1>
+  {{else}}
+    {{#if messages.emptyCart}}
+      <h1 style='color:white' class='text-center'>{{messages.emptyCart}}</h1>
+    {{else}}
+      <div style='background-color:aliceblue' class='container border col col-xl-10 my-4'>
+        <h1 class='display-md-3 fw-bolder pt-3'>Properties to Rent</h1>
+        <hr class='my-4' />
+        {{#each rentals}}
+          <div class='card rental-card mb-3' data-id="{{id}}">
+            <div class='row g-0'>
+              <div class='col-md-4'>
+                <img src='/rental-pics/{{imageUrl}}' class='img-thumbnail rounded-start' alt='{{headline}}' />
+              </div>
+              <div class='col-md-7'>
+                <div class='card-body'>
+                  <h3 class='card-title'>{{headline}}</h3>
+                  <p class='card-text'>{{city}}, {{province}}</p>
+                  <p class='card-text'>Number of Nights:
+                    <input class='form-control card-numNights' type='number' id="inputNight" name='numNights' min='1' value='{{numNights}}' />
+                  </p>
+                  <p class='card-text card-perNight'> C$ {{pricePerNight}}/night</p>
+                  <span class='card-text align-self-bottom card-total'>C$ {{priceStay}} total</span>
+                </div>
+
+              </div>
+              <div class='col-md-1 d-flex justify-content-end align-items-start px-4 py-3'>
+                <button class='btn' type='button' onclick="window.location.href='/remove-rental/{{id}}'"><i class="fa-solid fa-trash-can"></i></button>
+              </div>
+            </div>
+          </div>
+
+        {{/each}}
+        <div class='row g-0 justify-content-end'>
+            <div class='col-sm-5 my-2 text-end'>
+              <h6 id="cartTotal">Subtotal: C${{cartTotal}}</h6>
+              <h6 id="vatAmt">VAT: C${{vatAmt}}</h6>
+              <h5 id="totalPrice">Total Price: <b>C${{grandTotal}}</b></h5>
+              <button class='btn col-12 col-md-5' type='button' onclick="'">Place Order</button>
+            </div>
+          </div>
+      </div>
+    {{/if}}
   {{/if}}
 </section>
+{{! jQuery Library }}
+<script src='https://code.jquery.com/jquery-3.6.4.min.js' integrity='sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=' crossorigin='anonymous'></script>
+<script>
+  $(document).ready(function(){ 
+    $('.card-numNights').on('change', function(){
+      const numNights = $(this).val();
+      const rentalID = $(this).closest('.rental-card').data('id');
+
+      $.post('/update-cart', {id: rentalID, numNights: numNights}, function(res){
+        
+        $(`.rental-card[data-id="${rentalID}"] .card-numNights`).text(res.cart.numNights);
+        $(`.rental-card[data-id="${rentalID}"] .card-total`).text(`C$ ${res.cart.priceStay} total`);
+
+        $('#cartTotal').text(`Subtotal: C$ ${res.cartTotal}`);
+        $('#vatAmt').text(`VAT: C$ ${res.vatAmt}`);
+        $('#totalPrice').text(`Total Price: C$ ${res.grandTotal}`);
+      
+      })
+    });
+
+  });
+    </script>

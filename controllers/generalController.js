@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const rentalList = require('../models/rentals-db');
 const userModel = require('../models/userModel');
 const bcryptjs = require('bcryptjs');
 const rentalModel = require('../models/rentalModel');
@@ -64,19 +63,152 @@ router.get('/welcome', (req, res) => {
   });
 });
 
-router.get('/cart', (req, res) => {
+const CART_VIEW = 'general/cart';
+const prepareCartModel = function (req, messages = {}) {
   if (req.session && req.session.user && req.session.isCustomer) {
-    res.render('general/cart', {
-      styles: [{ name: 'index.css' }],
-      message: 'Welcome to Cart',
-    });
+    let cart = req.session.cart || [];
+    let cartTotal = 0;
+    let vatAmt = 0;
+    if (cart.length > 0) {
+      cart.forEach((cartRental) => {
+        cartTotal = cartTotal + cartRental.priceStay;
+      });
+      vatAmt = cartTotal * 0.1; //10% for tax
+    } else {
+      messages.emptyCart = 'There are no properties on the cart';
+    }
+
+    return {
+      styles: [{ name: 'index.css' }, { name: 'list.css' }],
+      messages,
+      rentals: cart,
+      cartTotal: cartTotal.toFixed(2),
+      vatAmt: vatAmt.toFixed(2),
+      grandTotal: parseFloat(cartTotal + vatAmt).toFixed(2),
+    };
+  } else {
+    //User is not a customer or not logged in
+    messages.notCustomer = 'You are not authorized to view this page.';
+    return {
+      styles: [{ name: 'index.css' }, { name: 'list.css' }],
+      messages,
+      rentals: [],
+    };
+  }
+};
+router.get('/cart', (req, res) => {
+  if (!(req.session && req.session.user && req.session.isCustomer)) {
+    res.status(401);
+  }
+  res.render(CART_VIEW, prepareCartModel(req));
+});
+
+router.get('/add-rental/:id', (req, res) => {
+  let messages = {};
+
+  // Check if the user is signed in as a customer.
+  if (req.session && req.session.user && req.session.isCustomer) {
+    // A shopping cart object will look like this:
+    //      _id: ID of the rental
+    //      imageURL
+    //      headline: Rental title
+    //      city:
+    //      province:
+    //      numNights: Number of nights they want to stay at the rental
+    //      pricePerNight
+    //      priceStay: pricePerNight * numNights
+    let rentalId = req.params.id;
+    let cart = (req.session.cart = req.session.cart || []);
+    let found = false;
+    rentalModel
+      .findById(rentalId)
+      .then((rental) => {
+        cart.forEach((cartProperty) => {
+          if (cartProperty.id === rentalId) {
+            found = true;
+            cartProperty.numNights++;
+            cartProperty.priceStay = cartProperty.pricePerNight * cartProperty.numNights;
+          }
+        });
+        if (found) {
+          res.redirect('/cart');
+        } else {
+          cart.push({
+            id: rentalId,
+            imageUrl: rental.imageUrl,
+            headline: rental.headline,
+            city: rental.city,
+            province: rental.province,
+            numNights: 1,
+            pricePerNight: rental.pricePerNight,
+            priceStay: parseFloat(1 * rental.pricePerNight),
+          });
+          res.render(CART_VIEW, prepareCartModel(req));
+        }
+      })
+      .catch((err) => {
+        console.log(`Error finding rental: ${err}`);
+        res.render(CART_VIEW, prepareCartModel(req));
+      });
   } else {
     res.status(401);
-    res.render('general/cart', {
-      styles: [{ name: 'index.css' }],
-      message: 'You are not authorized to view this page.',
-    });
+    res.render(CART_VIEW, prepareCartModel(req));
   }
+});
+
+router.get('/remove-rental/:id', (req, res) => {
+  let messages = {};
+  if (req.session && req.session.user && req.session.isCustomer) {
+    const rentalID = req.params.id;
+
+    let cart = req.session.cart || [];
+
+    const index = cart.findIndex((cartRental) => cartRental.id === rentalID);
+
+    if (index >= 0) {
+      cart.splice(index, 1);
+    }
+  } else {
+    res.status(401);
+  }
+  res.render(CART_VIEW, prepareCartModel(req));
+});
+
+//Route for Updating Cart
+router.post('/update-cart', (req, res) => {
+  
+  const rentalID = req.body.id;
+  const numNights = parseInt(req.body.numNights);
+
+  if(!Number.isNaN(numNights) && numNights > 0){
+    let cart = req.session.cart || [];
+
+    const index = cart.findIndex((cartRental) => cartRental.id === rentalID);
+  
+    if(index >= 0){
+      cart[index].numNights = numNights;
+    }
+  
+    let cartTotal = 0;
+    let vatAmt = 0;
+  
+    if (cart.length > 0) {
+    cart.forEach((cartRental) => {
+      cartRental.priceStay = cartRental.pricePerNight * cartRental.numNights;
+      cartTotal = cartTotal + cartRental.priceStay;
+    });
+    vatAmt = cartTotal * 0.1; //10% for tax
+    } else {
+      messages.emptyCart = 'There are no properties on the cart';
+    }
+    res.json(
+      {cart: cart[index],
+      cartTotal: cartTotal.toFixed(2),
+      vatAmt: vatAmt.toFixed(2),
+      grandTotal: parseFloat(cartTotal + vatAmt).toFixed(2)
+      }
+    );
+  }  
 });
 
 router.post('/log-in', (req, res) => {
@@ -112,6 +244,7 @@ router.post('/log-in', (req, res) => {
               } else {
                 //Customer
                 req.session.isCustomer = true;
+                req.session.cart = [];
                 res.redirect('/cart');
               }
             } else {
