@@ -54,7 +54,7 @@
     <div class='row'>
       {{#each rentals}}
         <div class="col-12 col-md-6 col-lg-4 p-2 d-flex flex-column align-items-center">
-          {{>rental}}
+          {{>rental cust=../isCustomer}}
         </div>
       {{/each}}
     </div>

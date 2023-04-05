@@ -49,6 +49,10 @@ img {
   height: 100%;
 }
 
+.btn {
+  background-color: #184d47;
+  color: white;
+}
 .btn:hover {
   background-color: #31af9c;
   color: white;

@@ -41,7 +41,7 @@ router.get('/list', (req, res) => {
       .exec()
       .then((data) => {
         let rentals = data.map((value) => value.toObject());
-        rentals.sort((a, b) => a.headLine.localeCompare(b.headLine));
+        rentals.sort((a, b) => a.headline.localeCompare(b.headline));
         res.render('rentals/list', {
           styles: [{ name: 'index.css' }, { name: 'list.css' }],
           rentals,
@@ -93,15 +93,15 @@ router.get('/add', (req, res) => {
 
 //Route to add a Rental (POST)
 router.post('/add', (req, res) => {
-  let { headLine, numSleeps, numBedrooms, numBathrooms, pricePerNight, city, province, featuredRental } = req.body;
+  let { headline, numSleeps, numBedrooms, numBathrooms, pricePerNight, city, province, featuredRental } = req.body;
 
   let messages = {};
   let passedValidation = true;
 
   //Validation for headline
-  if (typeof headLine !== 'string' || headLine.trim().length === 0) {
+  if (typeof headline !== 'string' || headline.trim().length === 0) {
     passedValidation = false;
-    messages.headLine = 'You must specify a rental headline';
+    messages.headline = 'You must specify a rental headline';
   }
 
   //Validation for Number of Guests
@@ -178,7 +178,7 @@ router.post('/add', (req, res) => {
 
   if (passedValidation) {
     const newRental = new rentalModel({
-      headLine,
+      headline,
       numSleeps,
       numBedrooms,
       numBathrooms,
@@ -190,7 +190,7 @@ router.post('/add', (req, res) => {
     });
 
     newRental.save().then((rentalSaved) => {
-      console.log(`Rental ${rentalSaved.headLine} has been added to the database`);
+      console.log(`Rental ${rentalSaved.headline} has been added to the database`);
       messages.form = 'Rental has been added to the database';
       //Create a unique name for the image, to store in the file system
       let uniqueName = `rental-pic-${rentalSaved._id}${path.parse(req.files.imageUrl.name).ext}`;
@@ -259,15 +259,15 @@ router.get('/edit/:id', (req, res) => {
 //Route to edit a rental (POST)
 router.post('/edit/:id', (req, res) => {
   const rentalId = req.params.id;
-  let { headLine, numSleeps, numBedrooms, numBathrooms, pricePerNight, city, province, featuredRental } = req.body;
+  let { headline, numSleeps, numBedrooms, numBathrooms, pricePerNight, city, province, featuredRental } = req.body;
   let messages = {};
   let passedValidation = true;
   let newImage = true;
 
   //Validation for headline
-  if (typeof headLine !== 'string' || headLine.trim().length === 0) {
+  if (typeof headline !== 'string' || headline.trim().length === 0) {
     passedValidation = false;
-    messages.headLine = 'You must specify a rental headline';
+    messages.headline = 'You must specify a rental headline';
   }
 
   //Validation for Number of Guests
@@ -346,7 +346,7 @@ router.post('/edit/:id', (req, res) => {
         { _id: rentalId },
         {
           $set: {
-            headLine,
+            headline,
             numSleeps,
             numBedrooms,
             numBathrooms,
@@ -402,7 +402,7 @@ router.post('/edit/:id', (req, res) => {
       messages,
       rental: {
         _id: rentalId,
-        headLine,
+        headline,
         numSleeps,
         numBedrooms,
         numBathrooms,
@@ -440,7 +440,7 @@ router.post('/remove/:id', (req, res) => {
   rentalModel
     .findByIdAndRemove(rentalId)
     .then((rental) => {
-      console.log(`Rental "${rental.headLine}" removed`);
+      console.log(`Rental "${rental.headline}" removed`);
       fs.rm(`assets/rental-pics/${rental.imageUrl}`)
         .then(() => {
           console.log('File removed successfully');

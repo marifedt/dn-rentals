@@ -1,6 +1,6 @@
 var rentals = [
   {
-    headLine: 'Nice 2-bedroom townhouse',
+    headline: 'Nice 2-bedroom townhouse',
     numSleeps: 4,
     numBedrooms: 2,
     numBathrooms: 1,
@@ -11,7 +11,7 @@ var rentals = [
     featuredRental: false,
   },
   {
-    headLine: 'Comfortable 3-bedroom house',
+    headline: 'Comfortable 3-bedroom house',
     numSleeps: 4,
     numBedrooms: 3,
     numBathrooms: 1,
@@ -22,7 +22,7 @@ var rentals = [
     featuredRental: false,
   },
   {
-    headLine: 'Luxury Bungalow',
+    headline: 'Luxury Bungalow',
     numSleeps: 5,
     numBedrooms: 2,
     numBathrooms: 2,
@@ -33,7 +33,7 @@ var rentals = [
     featuredRental: true,
   },
   {
-    headLine: 'Cozy Private Room',
+    headline: 'Cozy Private Room',
     numSleeps: 1,
     numBedrooms: 1,
     numBathrooms: 1,
@@ -44,7 +44,7 @@ var rentals = [
     featuredRental: false,
   },
   {
-    headLine: 'Falls House Walking Distance',
+    headline: 'Falls House Walking Distance',
     numSleeps: 9,
     numBedrooms: 5,
     numBathrooms: 1,
@@ -55,7 +55,7 @@ var rentals = [
     featuredRental: true,
   },
   {
-    headLine: 'Cottage Close to the Falls',
+    headline: 'Cottage Close to the Falls',
     numSleeps: 8,
     numBedrooms: 3,
     numBathrooms: 2,

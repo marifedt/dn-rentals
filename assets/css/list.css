@@ -23,3 +23,8 @@ table .btn {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
+
+#inputNight {
+  display: inline-flex;
+  width: 65px;
+}
