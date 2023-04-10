@@ -16,6 +16,8 @@ const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const fileUpload = require('express-fileupload');
+const MongoStore = require('connect-mongo');
+
 
 //Setup dotenv
 const dotenv = require('dotenv');
@@ -43,13 +45,17 @@ app.use(fileUpload());
 //Public folder
 app.use(express.static(path.join(__dirname, '/assets')));
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
+// Set up express-session
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  store: MongoStore.create({ //Stores session 
+    mongoUrl: process.env.MONGO_CONN_STRING,
+      ttl: 60 * 60, // 1 hour
+      autoRemove: 'native'
   })
-);
+}));
 app.use((req, res, next) => {
   // res.locals.user is a global handlebars variable.
   // This means that every single handlebars file can access this variable.
