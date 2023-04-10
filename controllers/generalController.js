@@ -211,6 +211,87 @@ router.post('/update-cart', (req, res) => {
   }  
 });
 
+//Route for sending email after customer places the order
+//It also clears the cart after sending the email
+router.get('/place-order', (req, res) => {
+  if(req.session && req.session.user && req.session.isCustomer){
+    
+    let cart = req.session.cart || [];
+    
+    if(cart.length > 0){
+
+      const sgMail = require('@sendgrid/mail');
+      sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
+      let emailMsg = 
+      `<h2> Hello ${req.session.user.firstName}!</h2>
+      <h3>Here are your properties that are looking to rent:</h3>
+       <table>
+        <thead>
+          <tr>
+            <th style='text-align:left'>#</th>
+            <th style='text-align:left; padding-left: 5px'>Rental Title </th>
+            <th style='text-align:left; padding-left: 10px'>City </th>
+            <th style='text-align:left; padding-left: 10px'>Province </th>
+            <th style='text-align:center; padding-left: 10px'>Nights Reserved </th>
+            <th style='text-align:right; padding-left: 10px'>Price per night </th>
+            <th style='text-align:right; padding-left: 10px'>Entire Stay Price </th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+      let cartTotal = 0;
+      let taxes = 0;
+      let totalWithTax = 0;
+      let count = 0;
+
+      cart.forEach(rental => {
+        emailMsg += `<tr>
+                      <td style='text-align:left'>${++count}</td>
+                      <td style='text-align:left; padding-left: 5px'>${rental.headline}</td>
+                      <td style='text-align:left; padding-left: 10px'>${rental.city}</td>
+                      <td style='text-align:left; padding-left: 10px'>${rental.province}</td>
+                      <td style='text-align:center; padding-left: 10px'>${rental.numNights} nights</td>
+                      <td style='text-align:right; padding-left: 10px'>C$ ${rental.pricePerNight}</td>
+                      <td style='text-align:right; padding-left: 10px'>C$ ${rental.priceStay}</td>
+                    </tr>`
+        cartTotal += rental.priceStay;
+      });
+
+      taxes = cartTotal * 0.1;
+      totalWithTax = cartTotal + taxes;
+
+      emailMsg += `<tr><td colspan='7' style='text-align:right; padding-top:20px'>Subtotal: C$ ${cartTotal.toFixed(2)}</td></tr>
+                   <tr><td colspan='7' style='text-align:right'>Taxes: C$ ${taxes.toFixed(2)}</td></tr>
+                   <tr><td colspan='7' style='text-align:right'>Total Amount to Pay: <b style='font-size: 16px'>C$ ${totalWithTax.toFixed(2)}</b> </td></tr>
+                   </tbody></table>`;
+      
+              
+      const msg = {
+        to: req.session.user.email,
+        from: 'mdt.mrfdt@gmail.com',
+        subject: 'Your Shopping Cart Order - D|N Rentals',
+        html: emailMsg,
+                };
+                sgMail
+                  .send(msg)
+                  .then(() => {
+                    //Clears the cart
+                    req.session.cart = [];
+                    res.redirect('/cart');
+                  })
+                  .catch((err) => {
+                    console.log(`Error sending the email to user... ${err}`);
+                    res.redirect('/cart');
+                  });
+    } else{
+      res.redirect('/cart');
+    }
+  } else{
+    res.status(401);
+    res.render(CART_VIEW, prepareCartModel(req));
+  }
+})
+
 router.post('/log-in', (req, res) => {
   const { loginEmail, loginPassword, roles } = req.body;
 
