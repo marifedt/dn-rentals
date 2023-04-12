@@ -103,7 +103,8 @@ router.get('/cart', (req, res) => {
   res.render(CART_VIEW, prepareCartModel(req));
 });
 
-router.get('/add-rental/:id', (req, res) => {
+//Route for adding a rental to the cart
+router.post('/add-rental', (req, res) => {
   let messages = {};
 
   // Check if the user is signed in as a customer.
@@ -117,7 +118,7 @@ router.get('/add-rental/:id', (req, res) => {
     //      numNights: Number of nights they want to stay at the rental
     //      pricePerNight
     //      priceStay: pricePerNight * numNights
-    let rentalId = req.params.id;
+    let rentalId = req.body.id;
     let cart = (req.session.cart = req.session.cart || []);
     let found = false;
     rentalModel
@@ -156,10 +157,11 @@ router.get('/add-rental/:id', (req, res) => {
   }
 });
 
-router.get('/remove-rental/:id', (req, res) => {
+//Route for removing a rental from the cart
+router.post('/remove-rental', (req, res) => {
   let messages = {};
   if (req.session && req.session.user && req.session.isCustomer) {
-    const rentalID = req.params.id;
+    const rentalID = req.body.id;
 
     let cart = req.session.cart || [];
 
@@ -176,7 +178,6 @@ router.get('/remove-rental/:id', (req, res) => {
 
 //Route for Updating Cart
 router.post('/update-cart', (req, res) => {
-  
   const rentalID = req.body.id;
   const numNights = parseInt(req.body.numNights);
 

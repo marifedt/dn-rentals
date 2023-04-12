@@ -27,7 +27,7 @@
 
               </div>
               <div class='col-md-1 d-flex justify-content-end align-items-start px-4 py-3'>
-                <button class='btn' type='button' onclick="window.location.href='/remove-rental/{{id}}'"><i class="fa-solid fa-trash-can"></i></button>
+                <button class='removeBtn btn' type='button'><i class="fa-solid fa-trash-can"></i></button>
               </div>
             </div>
           </div>
@@ -45,25 +45,3 @@
     {{/if}}
   {{/if}}
 </section>
-{{! jQuery Library }}
-<script src='https://code.jquery.com/jquery-3.6.4.min.js' integrity='sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=' crossorigin='anonymous'></script>
-<script>
-  $(document).ready(function(){ 
-    $('.card-numNights').on('change', function(){
-      const numNights = $(this).val();
-      const rentalID = $(this).closest('.rental-card').data('id');
-
-      $.post('/update-cart', {id: rentalID, numNights: numNights}, function(res){
-        
-        $(`.rental-card[data-id="${rentalID}"] .card-numNights`).text(res.cart.numNights);
-        $(`.rental-card[data-id="${rentalID}"] .card-total`).text(`C$ ${res.cart.priceStay} total`);
-
-        $('#cartTotal').text(`Subtotal: C$ ${res.cartTotal}`);
-        $('#vatAmt').text(`VAT: C$ ${res.vatAmt}`);
-        $('#totalPrice').text(`Total Price: C$ ${res.grandTotal}`);
-      
-      })
-    });
-
-  });
-    </script>

@@ -6,7 +6,7 @@
     <h4 class='text-truncate'>{{headline}}</h3>
     <h5 class='text-truncate'>{{city}}, {{province}}</h4>
     {{#if cust}}
-     <button class="btn" type="button" onclick="window.location.href='/add-rental/{{_id}}'">Rent</button>
+     <button data-id="{{_id}}" class="rentBtn btn" type="button">Rent</button>
     {{/if}}
   </address>
   <p class='col col-sm-6 col-xl-5 text-end pe-3 pt-2'>
