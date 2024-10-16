@@ -12,4 +12,4 @@ Course/Section: NCC
 
 GitHub Repo : https://github.com/marifedt/web322-mdela-torre
 
-Cyclic URL : https://clean-pike-cummerbund.cyclic.app/
+Live Site : https://dn-rentals.onrender.com/
